@@ -1,0 +1,839 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<HEAD>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<link rel="stylesheet" href="style.css">
+<script src="scripts.js"></script>
+<TITLE>Add-Ends</TITLE>
+<script>
+    var moves = 0;
+var toGuess = 0;
+var solved = true;
+var timer = -1;
+
+function newSeed(){
+    document.getElementById('seed').value=Math.round(Math.random()*99999999999);
+}
+
+function checkSeed(){
+    x=document.getElementById('seed').value.replace(/\D/g,'');
+    console.log(x);
+    if ( x == "" ){
+        newSeed();
+    }
+}
+
+function setToday(size,empty){
+	let date = new Date();
+	let seed = date.getFullYear() +""+ date.getMonth() +""+ date.getDate();
+	document.getElementById('seed').value = seed;
+    document.getElementById('size').value = size;
+    document.getElementById('empty').value = empty;
+	makeGrid();
+}
+
+var availableNumbers = [];
+function makeGrid() {
+	availableNumbers = []; // reset
+	if ( document.getElementById("grid")){
+		document.getElementById("gridSpace").removeChild(document.getElementById("grid"));
+	}
+	// if ( document.getElementById("scoreSection")){
+	// 	document.getElementById("gridSpace").removeChild(document.getElementById("scoreSection"));
+	// }
+    var seed = document.getElementById('seed').value;
+    var size = document.getElementById('size').value;
+    var empty = document.getElementById('empty').value;
+    var d = 0;
+	moves = 0;
+	solved = false;
+	timer = -1;
+	document.getElementById("gridSettings").style.display="none";
+	document.getElementById("fadeOut").style.display="none";
+	var useSequence = new Array();
+	let useNums = [];
+    for ( a = 0; a <=size*size; a++ ){
+		if ( useNums.length == 0 ){
+			useNums = [1,2,3,4,5,6,7,8,9];
+		}
+		let pR = ( parseInt(seed) + a )%useNums.length;
+		useSequence.push(useNums[pR]);
+		useNums.splice(pR,1);
+	}
+    var removeCells = [];
+    var toRemove = Math.round(size*size*(empty/100));
+	toGuess = toRemove;
+    var i = seed % (size*size);
+    while ( toRemove > 0 ){
+        var checkCell = i%(size*size);
+        if ( !removeCells.includes(checkCell) ){
+            removeCells.push(checkCell);
+            toRemove--;
+            i++;
+			// toGuess++;   
+        }
+        i += parseInt(seed.charAt(d%seed.length));
+        d++;
+    } 
+    var placeEmpty = Math.ceil((45*size)/empty);
+	var emptyCheck = 0;
+	var runningTotal = seed%size;
+	var cellVal = seed;
+	var missingTemp = (parseInt((size*size)*(empty*.01)));
+	var missing = parseInt((size*size)/missingTemp);
+	// Initialize Variables
+	var yCheck = 0;
+	var dCheck = 0;
+	var xCheck = new Array();
+	for (x=0;x<size;x++)	{xCheck[x] = 0;}
+	// Generate the Grid
+	var gridHTML = document.createElement("table");
+		gridHTML.classList.add ("grid","size-"+size);
+		gridHTML.id = "grid";
+		gridHTML.setAttribute("align","center");
+    var c = 0;
+	for (y=0;y<size;y++){
+		var yCheck = 0;
+		var thisRow = document.createElement("tr");
+		cellVal += y;
+		for (x=0;x<size;x++)
+		{
+			cellVal += x;
+			cellVal += (size*size)-seed;
+			var getChar = cellVal%(useSequence.length);
+			useVal = useSequence[getChar];
+            if ( typeof(useVal) == "undefined" ){ useVal = useSequence[0]; }
+			useSequence.splice(getChar,1);
+			runningTotal += useVal;
+			xCheck[x] += useVal;
+			var thisCell = document.createElement('td');
+				thisCell.className = "gridCell";
+            if ( removeCells.includes(c) ){
+				availableNumbers.push(useVal);
+				var thisLink = document.createElement("div");
+					thisLink.innerHTML = "0";
+					thisLink.id = "cell_"+x+"-"+y;
+					thisLink.setAttribute ("onclick","setCell(this);");
+					thisCell.classList.add("dynamic");
+				thisCell.appendChild(thisLink);
+				emptyCheck++;
+				runningTotal = 0;
+			}
+			else
+			{
+				thisCell.id = "cell_"+x+"-"+y;
+				thisCell.innerHTML = useVal;
+			}
+			thisRow.appendChild(thisCell);
+			yCheck += useVal;
+			if (x==y)
+			{
+				dCheck += useVal;
+			}
+			var prev = useVal;
+            c++;
+		}
+		thisCell = document.createElement("td");
+			thisCell.className = "check";
+			thisCell.id = "checkY"+y;
+			thisCell.innerHTML = yCheck;
+		thisRow.appendChild(thisCell);
+		gridHTML.appendChild(thisRow);
+	}
+	thisRow = document.createElement("tr");
+		thisRow.className = "checkRow";
+	for (x=0;x<size;x++)
+	{
+		thisCell = document.createElement("td");
+			thisCell.className = "check";
+			thisCell.id = "checkX"+x;
+			thisCell.innerHTML = xCheck[x];
+		thisRow.appendChild(thisCell);
+	}
+	thisCell = document.createElement("td");
+		thisCell.className = "check";
+		thisCell.id = "checkD";
+		thisCell.innerHTML = dCheck;
+	thisRow.appendChild(thisCell);
+	gridHTML.appendChild(thisRow);
+	// var scoreSection = newElement("div","score","scoreSection",null);
+	// 	scoreSection.appendChild(newElement("div",null,"timeHere",null));
+	// 	scoreSection.appendChild(newElement("div",null,"movesHere",null));
+	// 	scoreSection.appendChild(newElement("div",null,"feedback"));
+	// 	var backButton = newElement("button","button",null,"Main Menu");
+	// 		backButton.setAttribute("onclick","newGrid();");
+	// 	scoreSection.appendChild(backButton);
+	document.getElementById("gridSpace").appendChild(gridHTML);
+	// document.getElementById("gridSpace").appendChild(scoreSection);
+	checkGrid();
+	whatsLeft();
+}
+
+function newElement(tagName,useClass,useId,content){
+	if ( tagName == null ){ console.log("Missing tag name."); return; }
+	var newElement = document.createElement(tagName);
+		if ( useClass != null ){
+			newElement.className = useClass;
+		}
+		if ( useId != null ){
+			newElement.id = useId;
+		}
+		if ( content != null ){
+			newElement.innerHTML = content;
+		}
+	return newElement;
+}
+
+function whatsLeft(){
+	for ( var i = 1; i <= 9; i++ ){
+		let count = availableNumbers.filter( x => x === i ).length;
+		document.getElementById("guess"+i).getElementsByTagName("span")[0].innerHTML = "["+count+"]";
+		if ( count == 0 ){
+			document.getElementById("guess"+i).removeAttribute("onclick");
+			document.getElementById("guess"+i).parentElement.className = "disabled";
+		}
+		else {
+			document.getElementById("guess"+i).setAttribute("onclick","setCell(this);");
+			document.getElementById("guess"+i).parentElement.className = "";
+		}
+	}
+	
+}
+
+
+function guessBoard(x,y) {
+	return;
+	whatsLeft();
+	console.log(availableNumbers);
+	document.getElementById("currentX").value=x;
+	document.getElementById("currentY").value=y;
+	// var mouseX=event.clientX;
+	// mouseX = mouseX - 79;
+	// var mouseY=event.clientY;
+	// mouseY = mouseY - 59;
+	document.getElementById("guessBoard").style.display = "block";
+	document.getElementById("guessBoard").style.left = mouseX+"px";
+	document.getElementById("guessBoard").style.top = mouseY+"px";
+}
+function setCell_disabled(v) {
+	var thisX = document.getElementById("currentX").value;
+	var thisY = document.getElementById("currentY").value;
+	let oldValue = document.getElementById('cell_'+thisX+'-'+thisY).innerHTML;
+	if ( oldValue != 0 ){
+		availableNumbers.push(parseFloat(oldValue));
+		console.log(oldValue,availableNumbers);
+	}
+	else {
+		availableNumbers.splice(availableNumbers.indexOf(v),1);
+		moves++;
+	}
+	document.getElementById('cell_'+thisX+'-'+thisY).innerHTML = v;
+	document.getElementById("guessBoard").style.display = "none";
+	checkGrid();
+	document.getElementById("movesHere").innerHTML = moves+" guesses / "+toGuess + " cells";
+}
+
+var previousElement = null;
+function setCell(element){
+
+	if ( element.id.indexOf('guess')!= -1 && previousElement != null ){
+		return;
+	}
+
+	if ( previousElement == null && element.innerHTML == "0" ){
+		return;
+	}
+	
+	if ( previousElement != null ){
+		let useNum = previousElement.innerHTML.match('[0-9]');			
+
+		if ( previousElement.id.indexOf("cell_") != -1 ){
+			console.log("SWAP",element);
+			previousElement.innerHTML = element.innerHTML;
+		}
+		else {
+			if ( previousElement.id.indexOf('guess') != -1 && element.innerHTML != 0 ){
+				console.log('replace')
+				availableNumbers.push(parseInt(element.innerHTML))
+			}
+			availableNumbers.splice(availableNumbers.indexOf(parseInt(useNum[0])),1);
+		}
+
+		element.innerHTML = useNum[0];
+		previousElement.classList = "";
+		// console.log(availableNumbers)
+		moves++;
+
+		whatsLeft();
+		previousElement = null;
+		checkGrid();
+
+		return;
+
+	}
+	else {
+		// console.log(element);
+		element.classList += "active";
+		previousElement = element;
+	}
+
+
+	return;
+}
+
+
+
+function closeGuess(){
+	document.getElementById("guessBoard").style.display = "none";
+}
+
+function checkGrid()
+{
+	var checksOut = true;
+	var hasZeros = false;  // POSSIBLE TO SOLVE WITH ZEROS PRESENT - NEED TO FIX THIS!!!
+	var gridCheck = document.getElementById("grid");
+	var checkSize = parseFloat(gridCheck.getElementsByTagName("tr").length);
+	for (y=0;y<(checkSize-1);y++)
+	{
+		var checkX = 0;
+		for (x=0;x<(checkSize-1);x++){
+			var thisVal = parseFloat(document.getElementById("cell_"+x+"-"+y).innerHTML);
+			checkX = checkX + thisVal;
+		}
+		if (checkX!=parseFloat(document.getElementById("checkY"+y).innerHTML)) {
+			document.getElementById("checkY"+y).style.backgroundColor = "red";
+			checksOut = false;
+		}
+		else {
+			document.getElementById("checkY"+y).style.backgroundColor = "green";
+		}
+	}
+
+	for (x2=0;x2<(checkSize-1);x2++)
+	{
+		var checkY = 0;
+		for (y2=0;y2<(checkSize-1);y2++) {
+			var thisVal = parseFloat(document.getElementById("cell_"+x2+"-"+y2).innerHTML);
+			checkY = checkY + thisVal;
+		}
+		if (checkY!=parseFloat(document.getElementById("checkX"+x2).innerHTML)) {
+			document.getElementById("checkX"+x2).style.backgroundColor = "red";
+			checksOut = false;
+		}
+		else {
+			document.getElementById("checkX"+x2).style.backgroundColor = "green";
+		}
+	}
+
+	var checkZ = 0;
+	for (z=0;z<(checkSize-1);z++){
+		var thisVal = parseFloat(document.getElementById("cell_"+z+"-"+z).innerHTML);
+		checkZ = checkZ + thisVal;
+	}
+	if (checkZ!=parseFloat(document.getElementById("checkD").innerHTML)) {
+		document.getElementById("checkD").style.backgroundColor = "red";
+		checksOut = false;
+	}
+	else {
+		document.getElementById("checkD").style.backgroundColor = "green";
+	}
+	if (checksOut===true) {
+		solved = true;
+		congratulate();
+	}
+}
+function newGrid() {
+	document.getElementById("gridSettings").style.display="block";
+	document.getElementById("fadeOut").style.display="block";
+}
+function congratulate() {
+	document.getElementById("feedback").innerHTML = "The grid has been solved.<br/> Score: "+Math.round(100 - (100 - (toGuess/moves)*100))+"%";
+	solved = true;
+}
+function showLevels(x) {
+	document.getElementById("easy").style.display = "none";
+	document.getElementById("medium").style.display = "none";
+	document.getElementById("hard").style.display = "none";
+	document.getElementById(x).style.display = "block";
+
+	document.getElementById("link_easy").style.fontWeight = "normal";
+	document.getElementById("link_medium").style.fontWeight = "normal";
+	document.getElementById("link_hard").style.fontWeight = "normal";
+	document.getElementById("link_"+x).style.fontWeight = "bold";
+
+	document.getElementById("link_easy").style.backgroundColor = "#666";
+	document.getElementById("link_medium").style.backgroundColor = "#666";
+	document.getElementById("link_hard").style.backgroundColor = "#666";
+	document.getElementById("link_"+x).style.backgroundColor = "green";
+
+}
+
+function showTimer() {
+	if (solved == false)
+	{
+		timer++;
+		var hours = "0"+Math.floor(timer/3600);
+		var minutes = "0"+Math.floor((timer-(hours*3600))/60);
+		var seconds = "0"+Math.floor(timer-(hours*3600)-(minutes*60));
+		document.getElementById("timeHere").innerHTML = hours.slice(-2)+":"+minutes.slice(-2)+":"+seconds.slice(-2);
+	}
+	var t = setTimeout(function(){showTimer();},1000);
+}
+
+function init(){
+    newSeed();
+}
+
+</script>
+<style>
+    @font-face {
+    font-family: "Primary";
+    src: url('fonts/Electrolize-Regular.ttf');
+}
+
+@font-face { 
+    font-family: "Title";
+    src: url('fonts/GemunuLibre-VariableFont_wght.ttf');
+}
+
+* {
+	font-family: Primary, Verdana, Arial, "Sans-Serif";
+}
+
+@keyframes gridmove {
+    0% { background-position: 0 0;}
+    100% { background-position: 0 25px; }
+}
+
+
+@keyframes active {
+	0% { background-color: #000; color: #fff }
+	50% { background-color: #fff; color: #000; }
+	100% { background-color: #000; color: #fff }
+}
+
+.active {
+	animation-name: active;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+	border-radius: 0.5rem;
+}
+
+body {
+	background-color: #fff;
+	-webkit-text-size-adjust: 100%; /* prevents text size from changing on orientation change */
+    background-image:
+      repeating-linear-gradient(#eee 0 1px, transparent 2px 100%),
+      repeating-linear-gradient(90deg, #eee 0 1px, #fff 2px 100%);
+    background-size: 25px 25px;
+    animation: gridmove;
+    animation-timing-function: linear;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+}
+
+.button {
+	background-color: white;
+	text-decoration: none;
+	border: 2px solid silver;
+	padding: 2px 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	color: black;
+}
+
+h1 {
+    font-family: Title;
+	color: #333;
+	text-shadow: #999 0 0.5rem 0.5rem;
+    font-size: 3rem;
+    margin: .5rem;
+}
+
+button, select, input {
+    border: 2px inset #666;
+    border-radius: 4px;
+    padding: .25rem .5rem;
+    font-size: 1rem;
+    color: #000;
+    font-weight: bold;
+    background: linear-gradient(#fff,#bbb);
+}
+
+.grid {
+	background-color: #ccc;
+	margin-top: 30px;
+	padding: 10px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+    box-shadow: #666 0rem 1rem 1rem;
+    border: 2px solid #666;
+	}
+.gridCell {
+	font-size: 24px;
+	background-color: #fefefe;
+	padding: 10px;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+	}
+.check {
+	font-size: 20px;
+	background-color: #000000;
+	color: #ffffff;
+	padding: 10px;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+}
+
+
+
+/* width: 30px;
+height: 30px;
+margin: 0;
+padding: 10px; */
+
+
+.size-6 .gridCell, .size-6 .check {
+	font-size: 18px;
+	width: 26px;
+	height: 26px;
+	padding: 8px;
+}
+
+.size-7 .gridCell, .size-7 .check {
+	font-size: 16px;
+	width: 24px;
+	height: 24px;
+	padding: 6px;
+}
+
+.size-8 .gridCell, .size-8 .check {
+	font-size: 14px;
+	width: 22px;
+	height: 22px;
+	padding: 4px;
+}
+
+.size-9 .gridCell, .size-9 .check {
+	font-size: 12px;
+	width: 20px;
+	height: 20px;
+	padding: 4px;
+}
+
+.size-10 .gridCell, .size-10 .check {
+	font-size: 12px;
+	width: 18px;
+	height: 18px;
+	padding: 4px;
+}
+
+.dynamic {
+	background-color: #000;
+	color: #fff;
+}
+.dynamic a{
+	color: #fff;
+	text-decoration: none;
+}
+@keyframes guessPop {
+	1% { opacity: 0; }
+	100% { opacity: 1; }
+}
+#guessBoard {
+	font-family: Arial, "Sans-Serif";
+	font-size: 24px;
+	padding: 0 3rem;
+	text-align: center;
+
+	/* padding: 10px; */
+	/* width: 100%;
+	height: 100%; */
+	/* display: none;
+	position: absolute; */
+	/* -moz-border-radius: 12px; */
+	/* border-radius: 12px; */
+	/* animation-name: guessPop; */
+	/* animation-duration: 0.25s; */
+	/* animation-iteration-count: 1; */
+	/* left: 50%; */
+	/* top: 8rem; */
+	/* margin-left: -103px; */
+	/* background-color: rgba(0,0,0,.75);
+	top: 0;
+	left: 0; */
+}
+
+#guessBoard table{
+	background-color: #fefefe;
+	padding: 5px;
+	background-color: #999;
+	-moz-border-radius: 12px;
+	border-radius: 12px;
+	box-shadow: #000 0rem 0rem 4rem;
+	border: 1px solid #000;
+	width: 100%;
+	/* width: 80%;
+	height: 30%;
+	margin: 30% 10%; */
+}
+
+#guessBoard table tr th {
+	font-size: 1rem;
+	letter-spacing: 0.1rem;
+}
+
+#guessBoard table tr td {
+	border: 1px solid silver;
+	background-color: #fff;
+	/* padding: 3px 12px; */
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	display: table-cell;
+	/* width: 4rem;
+	height: 2rem; */
+}
+
+
+#guessBoard table tr td.disabled {
+	background-color: #333;
+	color: #666;
+}
+
+#guessBoard table tr td a {
+	text-decoration: none;
+	color: black;
+	display: block;
+	height: max-content;
+	position: relative;
+}
+
+#guessBoard table tr td.disabled a{
+	color: #666;
+}
+
+.left {
+	font-size: .75rem;
+	margin: 0 0 0 0.2rem;
+	letter-spacing: 0.06rem;
+}
+
+.closeBox {
+	font-size: 1rem;
+	text-align: center;
+	padding: 0 0.2rem;
+	background-color: #fff;
+	border-radius: .25rem;
+}
+
+#gridSettings {
+	position:fixed;
+	left: 0%;
+	top: 0%;
+	width: 100%;
+	height: 100%;
+	background-color: #f9f9f9;
+	z-index: 999;
+	text-align: center;
+	overflow-y: scroll;
+	-webkit-text-size-adjust: 100%; /* prevents text size from changing on orientation change */
+    background-image:
+      repeating-linear-gradient(#eee 0 1px, transparent 2px 100%),
+      repeating-linear-gradient(90deg, #eee 0 1px, #fff 2px 100%);
+    background-size: 25px 25px;
+    animation: gridmove;
+    animation-timing-function: linear;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+}
+#gridSettings div p {
+	padding: 0 1rem;
+}
+#gridSettings table tr td { text-align: left;}
+#gridSettings table tr td input {
+    width: 9rem;
+}
+#gridSettings table tr td select {
+    width: 10rem;
+}
+.score {
+	background: radial-gradient( #fff, transparent);
+    display: block;
+    height: auto;
+    margin-top: 2rem;
+    padding: 1rem;
+}
+.score div {
+	display: block;
+	margin-bottom: 1em;
+	text-align:center;
+}
+.levelButton {
+	font-family: Arial, "Sans-Serif";
+	font-size: 12px;
+	border: 2px solid silver;
+	text-decoration: none;
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	padding: 4px 8px;
+	margin: 5px;
+	float: left;
+	background-color: black;
+	color: white;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+}
+.levelButton:visited {
+	background-color: white;
+	color: gray;
+}
+#gridSpace {
+	text-align: center;
+	padding: 30px 30px;
+}
+#fadeOut {
+	background-color: #000;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	-moz-opacity:0.5;
+	-khtml-opacity: 0.5;
+	opacity: 0.5;
+}
+#medium, #hard {
+	display: none;
+	}
+.levelSet {
+	display: block;
+	float: left;
+	text-decoration: none;
+	border: 1px solid silver;
+	padding: 3px 6px;
+	color: white;
+	background-color: #666;
+	margin: 10px 22px;
+	width: 22%;
+	height: 30px;
+	line-height: 30px;
+}
+#feedback {
+	font-weight: bold;
+}
+#title {
+	font-weight: bold;
+	font-size: 24px;
+	display: block;
+	clear: both;
+}
+.randomSeed {
+    text-decoration: none;
+    font-weight: bold;
+}
+</style>
+</HEAD>
+ <BODY onload="init();">
+
+    <button class="button" onclick="newGrid();">< Main Menu</button>
+
+
+    <input type='hidden' id='currentX'>
+	<input type='hidden' id='currentY'>
+
+	<div id="gridSpace"></div>
+
+
+	<div id="guessBoard">
+		<table>
+            <th colspan="3">Available Numbers</th>
+        <tr>
+			<td><a id="guess1" href='javascript:void(0);' onclick='setCell(this);'>1<span class="left"></span></a></td>
+			<td><a id="guess2" href='javascript:void(0);' onclick='setCell(2);'>2<span class="left"></span></a></td>
+			<td><a id="guess3" href='javascript:void(0);' onclick='setCell(3);'>3<span class="left"></span></a></td>
+		</tr>
+		<tr>
+            <td><a id="guess4" href='javascript:void(0);' onclick='setCell(4);'>4<span class="left"></span></a></td>
+			<td><a id="guess5" href='javascript:void(0);' onclick='setCell(5);'>5<span class="left"></span></a></td>
+			<td><a id="guess6" href='javascript:void(0);' onclick='setCell(6);'>6<span class="left"></span></a></td>
+		</tr>
+		<tr>
+            <td><a id="guess7" href='javascript:void(0);' onclick='setCell(7);'>7<span class="left"></span></a></td>
+			<td><a id="guess8" href='javascript:void(0);' onclick='setCell(8);'>8<span class="left"></span></a></td>
+			<td><a id="guess9" href='javascript:void(0);' onclick='setCell(9);'>9<span class="left"></span></a></td>
+		</tr>
+		</table>
+	</div>
+
+    <div id="scoreSection" class="score">
+        <div id="timeHere"></div>
+        <div id="movesHere"></div>
+        <div id="feedback"></div>
+    </div>
+
+<div id="gridSettings">
+	<div id="instructions">
+        <h1>Add-Ends</h1>
+        <h3>How to play:</h3>
+        <p>Fill the empty (black) cells with a number between 1 and 9.  Tap the cell to choose the number.</p>
+        <p>All horizonal and vertical lines must add up to the number at the end (right and bottom) of the line.</p>
+        <p>Also, all numbers in the center diagonal line must add up to the number on the bottom right.</p>
+		<h2>Today's Puzzles:</h2>
+		<button onclick="setToday(5,10);">Easy</button>
+		<button onclick="setToday(7,25);">Intermediate</button>
+		<button onclick="setToday(10,50);">Hard</button>
+		<hr/>
+		<h2>Custom Puzzle:</h2>
+		<table align="center">
+            <tr>
+                <td>Seed:</td>
+                <td>
+                    <input name="seed" id="seed" type="number" onblur="checkSeed();">
+                    <button onclick="newSeed();">&#x21bb;</button>
+            </tr>
+            <tr>
+                <td>Size:</td>
+                <td>
+                <select name="size" id="size" type="text">
+                    <option value=5>5x5</option>
+                    <option value=6>6x6</option>
+                    <option value=7>7x7</option>
+                    <option value=8>8x8</option>
+                    <option value=9>9x9</option>
+                    <option value=10>10x10</option>
+                </select>
+            </td>
+            </tr>
+            <tr>
+                <td>Difficulty:</td>
+                <td>
+                    <select name="empty" id="empty">
+                        <option value=10>Easy: 10%</option>
+                        <option value=25>Intermediate: 25%</option>
+                        <option value=50>Hard: 50%</option>
+                        <option value=75>Punishing: 75%</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <button onclick="makeGrid()">Generate Grid</button>
+	</div>
+</div>
+<div id="fadeOut"></div>
+<script>showTimer();</script>
+</BODY>
+</HTML>

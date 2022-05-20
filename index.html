@@ -348,6 +348,7 @@ function checkGrid()
 function newGrid() {
 	document.getElementById("gridSettings").style.display="block";
 	document.getElementById("fadeOut").style.display="block";
+	document.getElementById("feedback").innerHTML="";
 }
 function congratulate() {
 	document.getElementById("feedback").innerHTML = "The grid has been solved.<br/> Score: "+Math.round(100 - (100 - (toGuess/moves)*100))+"%";
@@ -469,7 +470,7 @@ button, select, input {
 	padding: 10px;
 	-moz-border-radius: 15px;
 	border-radius: 15px;
-    box-shadow: #666 0rem 1rem 1rem;
+    /* box-shadow: #666 0rem 1rem 1rem; */
     border: 2px solid #666;
 	}
 .gridCell {
@@ -574,12 +575,11 @@ padding: 10px; */
 }
 
 #guessBoard table{
-	background-color: #fefefe;
+	background-color: #ccc;
 	padding: 5px;
-	background-color: #999;
 	-moz-border-radius: 12px;
 	border-radius: 12px;
-	box-shadow: #000 0rem 0rem 4rem;
+	/* box-shadow: #000 0rem 0rem 4rem; */
 	border: 1px solid #000;
 	width: 100%;
 	/* width: 80%;
@@ -745,6 +745,9 @@ padding: 10px; */
     text-decoration: none;
     font-weight: bold;
 }
+#customPuzzleSettings {
+	display: none;
+}
 </style>
 </HEAD>
  <BODY onload="init();">
@@ -789,48 +792,50 @@ padding: 10px; */
 	<div id="instructions">
         <h1>Add-Ends</h1>
         <h3>How to play:</h3>
-        <p>Fill the empty (black) cells with a number between 1 and 9.  Tap the cell to choose the number.</p>
+        <p>Fill the empty (black) cells with a number between 1 and 9.  Choose a number in the Available Numbers table and tap the black square to place it.  You can also swap placed numbers in the grid by tapping the number you want to move and then tapping the placed number you'd like to swap.</p>
         <p>All horizonal and vertical lines must add up to the number at the end (right and bottom) of the line.</p>
         <p>Also, all numbers in the center diagonal line must add up to the number on the bottom right.</p>
 		<h2>Today's Puzzles:</h2>
 		<button onclick="setToday(5,10);">Easy</button>
 		<button onclick="setToday(7,25);">Intermediate</button>
 		<button onclick="setToday(10,50);">Hard</button>
-		<hr/>
-		<h2>Custom Puzzle:</h2>
-		<table align="center">
-            <tr>
-                <td>Seed:</td>
-                <td>
-                    <input name="seed" id="seed" type="number" onblur="checkSeed();">
-                    <button onclick="newSeed();">&#x21bb;</button>
-            </tr>
-            <tr>
-                <td>Size:</td>
-                <td>
-                <select name="size" id="size" type="text">
-                    <option value=5>5x5</option>
-                    <option value=6>6x6</option>
-                    <option value=7>7x7</option>
-                    <option value=8>8x8</option>
-                    <option value=9>9x9</option>
-                    <option value=10>10x10</option>
-                </select>
-            </td>
-            </tr>
-            <tr>
-                <td>Difficulty:</td>
-                <td>
-                    <select name="empty" id="empty">
-                        <option value=10>Easy: 10%</option>
-                        <option value=25>Intermediate: 25%</option>
-                        <option value=50>Hard: 50%</option>
-                        <option value=75>Punishing: 75%</option>
-                    </select>
-                </td>
-            </tr>
-        </table>
-        <button onclick="makeGrid()">Generate Grid</button>
+		<div id="customPuzzleSettings">
+			<hr/>
+			<h2>Custom Puzzle:</h2>
+			<table align="center">
+				<tr>
+					<td>Seed:</td>
+					<td>
+						<input name="seed" id="seed" type="number" onblur="checkSeed();">
+						<button onclick="newSeed();">&#x21bb;</button>
+				</tr>
+				<tr>
+					<td>Size:</td>
+					<td>
+					<select name="size" id="size" type="text">
+						<option value=5>5x5</option>
+						<option value=6>6x6</option>
+						<option value=7>7x7</option>
+						<option value=8>8x8</option>
+						<option value=9>9x9</option>
+						<option value=10>10x10</option>
+					</select>
+				</td>
+				</tr>
+				<tr>
+					<td>Difficulty:</td>
+					<td>
+						<select name="empty" id="empty">
+							<option value=10>Easy: 10%</option>
+							<option value=25>Intermediate: 25%</option>
+							<option value=50>Hard: 50%</option>
+							<option value=75>Punishing: 75%</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<button onclick="makeGrid()">Generate Grid</button>
+		</div>
 	</div>
 </div>
 <div id="fadeOut"></div>

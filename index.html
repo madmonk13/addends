@@ -41,12 +41,10 @@ function makeGrid() {
 	if ( document.getElementById("grid")){
 		document.getElementById("gridSpace").removeChild(document.getElementById("grid"));
 	}
-	// if ( document.getElementById("scoreSection")){
-	// 	document.getElementById("gridSpace").removeChild(document.getElementById("scoreSection"));
-	// }
     var seed = document.getElementById('seed').value;
     var size = document.getElementById('size').value;
     var empty = document.getElementById('empty').value;
+	document.getElementById("showSeed").innerHTML = "Puzzle #"+seed+"x"+size;
     var d = 0;
 	moves = 0;
 	solved = false;
@@ -159,15 +157,7 @@ function makeGrid() {
 		thisCell.innerHTML = dCheck;
 	thisRow.appendChild(thisCell);
 	gridHTML.appendChild(thisRow);
-	// var scoreSection = newElement("div","score","scoreSection",null);
-	// 	scoreSection.appendChild(newElement("div",null,"timeHere",null));
-	// 	scoreSection.appendChild(newElement("div",null,"movesHere",null));
-	// 	scoreSection.appendChild(newElement("div",null,"feedback"));
-	// 	var backButton = newElement("button","button",null,"Main Menu");
-	// 		backButton.setAttribute("onclick","newGrid();");
-	// 	scoreSection.appendChild(backButton);
 	document.getElementById("gridSpace").appendChild(gridHTML);
-	// document.getElementById("gridSpace").appendChild(scoreSection);
 	checkGrid();
 	whatsLeft();
 }
@@ -190,7 +180,7 @@ function newElement(tagName,useClass,useId,content){
 function whatsLeft(){
 	for ( var i = 1; i <= 9; i++ ){
 		let count = availableNumbers.filter( x => x === i ).length;
-		document.getElementById("guess"+i).getElementsByTagName("span")[0].innerHTML = "["+count+"]";
+		document.getElementById("guess"+i).getElementsByTagName("span")[0].innerHTML = count;
 		if ( count == 0 ){
 			document.getElementById("guess"+i).removeAttribute("onclick");
 			document.getElementById("guess"+i).parentElement.className = "disabled";
@@ -210,10 +200,6 @@ function guessBoard(x,y) {
 	console.log(availableNumbers);
 	document.getElementById("currentX").value=x;
 	document.getElementById("currentY").value=y;
-	// var mouseX=event.clientX;
-	// mouseX = mouseX - 79;
-	// var mouseY=event.clientY;
-	// mouseY = mouseY - 59;
 	document.getElementById("guessBoard").style.display = "block";
 	document.getElementById("guessBoard").style.left = mouseX+"px";
 	document.getElementById("guessBoard").style.top = mouseY+"px";
@@ -351,7 +337,7 @@ function newGrid() {
 	document.getElementById("feedback").innerHTML="";
 }
 function congratulate() {
-	document.getElementById("feedback").innerHTML = "The grid has been solved.<br/> Score: "+Math.round(100 - (100 - (toGuess/moves)*100))+"%";
+	document.getElementById("feedback").innerHTML = "You solved the grid in "+moves+" moves.<br>Best possible moves: "+toGuess;
 	solved = true;
 }
 function showLevels(x) {
@@ -495,14 +481,6 @@ button, select, input {
 	border-radius: 7px;
 }
 
-
-
-/* width: 30px;
-height: 30px;
-margin: 0;
-padding: 10px; */
-
-
 .size-6 .gridCell, .size-6 .check {
 	font-size: 18px;
 	width: 26px;
@@ -557,23 +535,6 @@ padding: 10px; */
 	text-align: center;
 	width: fit-content;
 	margin: 0 auto;
-
-	/* padding: 10px; */
-	/* width: 100%;
-	height: 100%; */
-	/* display: none;
-	position: absolute; */
-	/* -moz-border-radius: 12px; */
-	/* border-radius: 12px; */
-	/* animation-name: guessPop; */
-	/* animation-duration: 0.25s; */
-	/* animation-iteration-count: 1; */
-	/* left: 50%; */
-	/* top: 8rem; */
-	/* margin-left: -103px; */
-	/* background-color: rgba(0,0,0,.75);
-	top: 0;
-	left: 0; */
 }
 
 #guessBoard table{
@@ -581,12 +542,8 @@ padding: 10px; */
 	padding: 5px;
 	-moz-border-radius: 12px;
 	border-radius: 12px;
-	/* box-shadow: #000 0rem 0rem 4rem; */
 	border: 1px solid #000;
 	width: 100%;
-	/* width: 80%;
-	height: 30%;
-	margin: 30% 10%; */
 }
 
 #guessBoard table tr th {
@@ -597,18 +554,15 @@ padding: 10px; */
 #guessBoard table tr td {
 	border: 1px solid silver;
 	background-color: #fff;
-	/* padding: 3px 12px; */
 	-moz-border-radius: 6px;
 	border-radius: 6px;
 	display: table-cell;
-	/* width: 4rem;
-	height: 2rem; */
 }
 
 
 #guessBoard table tr td.disabled {
-	background-color: #333;
-	color: #666;
+	background-color: #fff;
+	color: #eee;
 }
 
 #guessBoard table tr td a {
@@ -620,13 +574,21 @@ padding: 10px; */
 }
 
 #guessBoard table tr td.disabled a{
-	color: #666;
+	color: #eee;
 }
 
 .left {
 	font-size: .75rem;
 	margin: 0 0 0 0.2rem;
 	letter-spacing: 0.06rem;
+}
+
+.left::before {
+	content: "[";
+}
+
+.left::after {
+	content: "]";
 }
 
 .closeBox {
@@ -750,11 +712,15 @@ padding: 10px; */
 #customPuzzleSettings {
 	display: none;
 }
+#showSeed {
+  float: right;
+}
 </style>
 </HEAD>
  <BODY onload="init();">
 
     <button class="button" onclick="newGrid();">< Main Menu</button>
+	<div id="showSeed"></div>
 
 
     <input type='hidden' id='currentX'>

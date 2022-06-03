@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <HEAD>
 <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -6,7 +6,6 @@
 <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <link rel="stylesheet" href="style.css">
-<script src="scripts.js"></script>
 <TITLE>Add-Ends</TITLE>
 <script>
     var moves = 0;
@@ -177,7 +176,37 @@ function newElement(tagName,useClass,useId,content){
 	return newElement;
 }
 
+function shuffleArray(array) {
+	let output = [];
+	var seed = document.getElementById('seed').value;
+    for (let i = array.length - 1; i >= 0; i--) {
+		while ( array[i] == array[seed%array.length-1] ){
+			seed++
+		}
+		output.push(array[seed%array.length])
+		array.splice(seed%array.length,1);
+    }
+	return output;
+}
+
 function whatsLeft(){
+	availableNumbers = shuffleArray(availableNumbers);
+	var grid = document.getElementById("grid");
+	var rows = grid.getElementsByTagName("tr");
+	for (y=0;y<rows.length-1;y++){
+		var col = rows[y].getElementsByTagName("td");
+		for ( x=0;x<col.length-1;x++){
+			if ( col[x].classList.contains("dynamic") ){
+				col[x].getElementsByTagName("div")[0].innerHTML = availableNumbers[0];
+				availableNumbers.splice(0,1);
+			}
+		}
+
+		
+	}
+
+
+	
 	for ( var i = 1; i <= 9; i++ ){
 		let count = availableNumbers.filter( x => x === i ).length;
 		document.getElementById("guess"+i).getElementsByTagName("span")[0].innerHTML = count;
@@ -190,20 +219,21 @@ function whatsLeft(){
 			document.getElementById("guess"+i).parentElement.className = "";
 		}
 	}
-	
+	checkGrid();
 }
 
 
 function guessBoard(x,y) {
 	return;
-	whatsLeft();
-	console.log(availableNumbers);
-	document.getElementById("currentX").value=x;
-	document.getElementById("currentY").value=y;
-	document.getElementById("guessBoard").style.display = "block";
-	document.getElementById("guessBoard").style.left = mouseX+"px";
-	document.getElementById("guessBoard").style.top = mouseY+"px";
+	// whatsLeft();
+	// console.log(availableNumbers);
+	// document.getElementById("currentX").value=x;
+	// document.getElementById("currentY").value=y;
+	// document.getElementById("guessBoard").style.display = "block";
+	// document.getElementById("guessBoard").style.left = mouseX+"px";
+	// document.getElementById("guessBoard").style.top = mouseY+"px";
 }
+
 function setCell_disabled(v) {
 	var thisX = document.getElementById("currentX").value;
 	var thisY = document.getElementById("currentY").value;
@@ -224,45 +254,33 @@ function setCell_disabled(v) {
 
 var previousElement = null;
 function setCell(element){
+	// console.log(element,previousElement);
 
-	if ( element.id.indexOf('guess')!= -1 && previousElement != null ){
-		return;
-	}
-
-	if ( previousElement == null && element.innerHTML == "0" ){
+	// you've won, it's time to stop.
+	if ( solved === true ){
+		console.log("solved")
 		return;
 	}
 	
 	if ( previousElement != null ){
-		let useNum = previousElement.innerHTML.match('[0-9]');			
 
-		if ( previousElement.id.indexOf("cell_") != -1 ){
-			console.log("SWAP",element);
-			previousElement.innerHTML = element.innerHTML;
-		}
-		else {
-			if ( previousElement.id.indexOf('guess') != -1 && element.innerHTML != 0 ){
-				console.log('replace')
-				availableNumbers.push(parseInt(element.innerHTML))
-			}
-			availableNumbers.splice(availableNumbers.indexOf(parseInt(useNum[0])),1);
-		}
+		let oldNum = previousElement.innerHTML.match('[1-9]')[0];
+		let newNum = element.innerHTML.match('[1-9]')[0];
 
-		element.innerHTML = useNum[0];
-		previousElement.classList = "";
-		// console.log(availableNumbers)
-		moves++;
-
-		whatsLeft();
+		previousElement.innerHTML = newNum;
+		element.innerHTML = oldNum;
+		previousElement.parentNode.className = "gridCell dynamic";
 		previousElement = null;
 		checkGrid();
+
+		moves++;
 
 		return;
 
 	}
 	else {
 		// console.log(element);
-		element.classList += "active";
+		element.parentNode.classList += " active";
 		previousElement = element;
 	}
 
@@ -337,7 +355,7 @@ function newGrid() {
 	document.getElementById("feedback").innerHTML="";
 }
 function congratulate() {
-	document.getElementById("feedback").innerHTML = "You solved the grid in "+moves+" moves.<br>Best possible moves: "+toGuess;
+	document.getElementById("feedback").innerHTML = "You solved the grid!";
 	solved = true;
 }
 function showLevels(x) {
@@ -435,7 +453,6 @@ body {
 h1 {
     font-family: Title;
 	color: #333;
-	text-shadow: #999 0 0.5rem 0.5rem;
     font-size: 3rem;
     margin: .5rem;
 }
@@ -456,7 +473,6 @@ button, select, input {
 	padding: 10px;
 	-moz-border-radius: 15px;
 	border-radius: 15px;
-    /* box-shadow: #666 0rem 1rem 1rem; */
     border: 2px solid #666;
 	}
 .gridCell {
@@ -529,6 +545,7 @@ button, select, input {
 	100% { opacity: 1; }
 }
 #guessBoard {
+	display: none;
 	font-family: Arial, "Sans-Serif";
 	font-size: 24px;
 	padding: 0 3rem;
@@ -633,7 +650,7 @@ button, select, input {
 	background: radial-gradient( #fff, transparent);
     display: block;
     height: auto;
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
     padding: 1rem;
 }
 .score div {
@@ -710,7 +727,7 @@ button, select, input {
     font-weight: bold;
 }
 #customPuzzleSettings {
-	display: none;
+	display: block;
 }
 #showSeed {
   float: right;
@@ -760,13 +777,13 @@ button, select, input {
 	<div id="instructions">
         <h1>Add-Ends</h1>
         <h3>How to play:</h3>
-        <p>Fill the empty (black) cells with a number between 1 and 9.  Choose a number in the Available Numbers table and tap the black square to place it.  You can also swap placed numbers in the grid by tapping the number you want to move and then tapping the placed number you'd like to swap.</p>
+		<p>Swap the black tiles so that all of the columns and rows add up to the number at the end.</p>
         <p>All horizonal and vertical lines must add up to the number at the end (right and bottom) of the line.</p>
         <p>Also, all numbers in the center diagonal line must add up to the number on the bottom right.</p>
 		<h2>Today's Puzzles:</h2>
 		<button onclick="setToday(5,10);">Easy</button>
-		<button onclick="setToday(7,25);">Intermediate</button>
-		<button onclick="setToday(10,50);">Hard</button>
+		<button onclick="setToday(5,25);">Intermediate</button>
+		<button onclick="setToday(5,50);">Hard</button>
 		<div id="customPuzzleSettings">
 			<hr/>
 			<h2>Custom Puzzle:</h2>

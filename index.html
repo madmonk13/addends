@@ -269,6 +269,7 @@ function setCell(element){
 
 		previousElement.innerHTML = newNum;
 		element.innerHTML = oldNum;
+		element.classList += " set";
 		previousElement.parentNode.className = "gridCell dynamic";
 		previousElement = null;
 		checkGrid();
@@ -308,11 +309,11 @@ function checkGrid()
 			checkX = checkX + thisVal;
 		}
 		if (checkX!=parseFloat(document.getElementById("checkY"+y).innerHTML)) {
-			document.getElementById("checkY"+y).style.backgroundColor = "red";
+			document.getElementById("checkY"+y).className = "check bad";
 			checksOut = false;
 		}
 		else {
-			document.getElementById("checkY"+y).style.backgroundColor = "green";
+			document.getElementById("checkY"+y).className = "check good";
 		}
 	}
 
@@ -324,11 +325,11 @@ function checkGrid()
 			checkY = checkY + thisVal;
 		}
 		if (checkY!=parseFloat(document.getElementById("checkX"+x2).innerHTML)) {
-			document.getElementById("checkX"+x2).style.backgroundColor = "red";
+			document.getElementById("checkX"+x2).className = "check bad";
 			checksOut = false;
 		}
 		else {
-			document.getElementById("checkX"+x2).style.backgroundColor = "green";
+			document.getElementById("checkX"+x2).className = "check good";
 		}
 	}
 
@@ -338,11 +339,11 @@ function checkGrid()
 		checkZ = checkZ + thisVal;
 	}
 	if (checkZ!=parseFloat(document.getElementById("checkD").innerHTML)) {
-		document.getElementById("checkD").style.backgroundColor = "red";
+		document.getElementById("checkD").className = "check bad";
 		checksOut = false;
 	}
 	else {
-		document.getElementById("checkD").style.backgroundColor = "green";
+		document.getElementById("checkD").className = "check good";
 	}
 	if (checksOut===true) {
 		solved = true;
@@ -356,6 +357,9 @@ function newGrid() {
 }
 function congratulate() {
 	document.getElementById("feedback").innerHTML = "You solved the grid!";
+    for ( var i in document.getElementsByClassName("gridCell")){
+        setTimeout(document.getElementsByClassName("gridCell")[i].className += " solved",1000);
+	} 
 	solved = true;
 }
 function showLevels(x) {
@@ -415,15 +419,22 @@ function init(){
 
 
 @keyframes active {
-	0% { background-color: #000; color: #fff }
-	50% { background-color: #fff; color: #000; }
-	100% { background-color: #000; color: #fff }
+	0% { background-color: #000; color: lemonchiffon }
+	50% { background-color: lemonchiffon; color: #000; }
+	100% { background-color: #000; color: lemonchiffon }
 }
 
 .active {
 	animation-name: active;
 	animation-duration: 1s;
 	animation-iteration-count: infinite;
+	border-radius: 0.5rem;
+}
+
+.set {
+	animation-name: active;
+	animation-duration: 0.5s;
+	animation-iteration-count: 1;
 	border-radius: 0.5rem;
 }
 
@@ -732,6 +743,46 @@ button, select, input {
 #showSeed {
   float: right;
 }
+
+@keyframes goodCheck {
+	0% { border: 3px solid lightgreen; }
+	50% { border: 3px solid green; }
+	100% { border: 3px solid lightgreen; }
+}
+
+@keyframes badCheck {
+	0% { border: 3px solid orange; }
+	50% { border: 3px solid red; }
+	100% { border: 3px solid orange; }
+}
+
+.good {
+	background-color: green;
+	/* animation-name: goodCheck;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+	padding: -3px; */
+}
+
+.bad {
+	background-color: red;
+	/* animation-name: badCheck;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+	padding: -3px; */
+}
+
+@keyframes solved {
+	0% { color: #000; background-color: #fff; }
+	50% { color: lightgreen; background-color: green; }
+	100% { color: #000; background-color: #fff; }
+}
+
+.solved {
+	animation-name: solved;
+	animation-duration: 1s;
+	animation-iteration-count: 5;
+}
 </style>
 </HEAD>
  <BODY onload="init();">
@@ -781,9 +832,9 @@ button, select, input {
         <p>All horizonal and vertical lines must add up to the number at the end (right and bottom) of the line.</p>
         <p>Also, all numbers in the center diagonal line must add up to the number on the bottom right.</p>
 		<h2>Today's Puzzles:</h2>
-		<button onclick="setToday(5,10);">Easy</button>
-		<button onclick="setToday(5,25);">Intermediate</button>
-		<button onclick="setToday(5,50);">Hard</button>
+		<button onclick="setToday(5,20);">Easy</button>
+		<button onclick="setToday(6,30);">Intermediate</button>
+		<button onclick="setToday(7,40);">Hard</button>
 		<div id="customPuzzleSettings">
 			<hr/>
 			<h2>Custom Puzzle:</h2>
@@ -811,9 +862,9 @@ button, select, input {
 					<td>Difficulty:</td>
 					<td>
 						<select name="empty" id="empty">
-							<option value=10>Easy: 10%</option>
-							<option value=25>Intermediate: 25%</option>
-							<option value=50>Hard: 50%</option>
+							<option value=20>Easy: 20%</option>
+							<option value=30>Intermediate: 30%</option>
+							<option value=40>Hard: 40%</option>
 							<option value=75>Punishing: 75%</option>
 						</select>
 					</td>

@@ -357,8 +357,8 @@ function newGrid() {
 }
 function congratulate() {
 	document.getElementById("feedback").innerHTML = "You solved the grid!";
-    for ( var i in document.getElementsByClassName("gridCell")){
-        setTimeout(document.getElementsByClassName("gridCell")[i].className += " solved",1000);
+    for ( var i in document.getElementsByClassName("gridCell dynamic")){
+        setTimeout(document.getElementsByClassName("gridCell dynamic")[i].className += " solved",1000);
 	} 
 	solved = true;
 }
@@ -773,9 +773,11 @@ button, select, input {
 }
 
 @keyframes solved {
-	0% { color: #000; background-color: #fff; }
+	0% { transform: rotate(0deg);background-color:#000; }
+	100% { transform: rotate(360deg);background-color:green;}
+	/* 0% { color: #000; background-color: #fff; }
 	50% { color: lightgreen; background-color: green; }
-	100% { color: #000; background-color: #fff; }
+	100% { color: #000; background-color: #fff; } */
 }
 
 .solved {

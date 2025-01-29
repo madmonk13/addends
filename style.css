@@ -1,0 +1,387 @@
+@font-face {
+    font-family: "Primary";
+    src: url('./fonts/Electrolize/Electrolize-Regular.ttf');
+}
+
+@font-face { 
+    font-family: "Title";
+    src: url('./fonts/Gemunu_Libre/GemunuLibre-VariableFont_wght.ttf');
+}
+
+* {
+	font-family: Primary, Verdana, Arial, "Sans-Serif";
+}
+
+@keyframes gridmove {
+    0% { background-position: 0 0;}
+    100% { background-position: 0 25px; }
+}
+
+
+@keyframes active {
+	0% { background-color: #000; color: lemonchiffon }
+	50% { background-color: lemonchiffon; color: #000; }
+	100% { background-color: #000; color: lemonchiffon }
+}
+
+.active {
+	animation-name: active;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+	border-radius: 0.5rem;
+}
+
+.set {
+	animation-name: active;
+	animation-duration: 0.5s;
+	animation-iteration-count: 1;
+	border-radius: 0.5rem;
+}
+
+body {
+	background-color: #fff;
+	-webkit-text-size-adjust: 100%; /* prevents text size from changing on orientation change */
+    background-image:
+      repeating-linear-gradient(#eee 0 1px, transparent 2px 100%),
+      repeating-linear-gradient(90deg, #eee 0 1px, #fff 2px 100%);
+    background-size: 25px 25px;
+    animation: gridmove;
+    animation-timing-function: linear;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+}
+
+.button {
+	background-color: white;
+	text-decoration: none;
+	border: 2px solid silver;
+	padding: 2px 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	color: black;
+}
+
+h1 {
+    font-family: Title;
+	color: #333;
+    font-size: 3rem;
+    margin: .5rem;
+}
+
+button, select, input {
+    border: 2px inset #666;
+    border-radius: 4px;
+    padding: .25rem .5rem;
+    font-size: 1rem;
+    color: #000;
+    font-weight: bold;
+    background: linear-gradient(#fff,#bbb);
+}
+
+.grid {
+	background-color: #ccc;
+	margin-top: 30px;
+	padding: 10px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+    border: 2px solid #666;
+	}
+.gridCell {
+	font-size: 24px;
+	background-color: #fefefe;
+	padding: 10px;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+	}
+.check {
+	font-size: 20px;
+	background-color: #000000;
+	color: #ffffff;
+	padding: 10px;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+}
+
+.size-6 .gridCell, .size-6 .check {
+	font-size: 18px;
+	width: 26px;
+	height: 26px;
+	padding: 8px;
+}
+
+.size-7 .gridCell, .size-7 .check {
+	font-size: 16px;
+	width: 24px;
+	height: 24px;
+	padding: 6px;
+}
+
+.size-8 .gridCell, .size-8 .check {
+	font-size: 14px;
+	width: 22px;
+	height: 22px;
+	padding: 4px;
+}
+
+.size-9 .gridCell, .size-9 .check {
+	font-size: 12px;
+	width: 20px;
+	height: 20px;
+	padding: 4px;
+}
+
+.size-10 .gridCell, .size-10 .check {
+	font-size: 12px;
+	width: 18px;
+	height: 18px;
+	padding: 4px;
+}
+
+.dynamic {
+	background-color: #000;
+	color: #fff;
+}
+.dynamic a{
+	color: #fff;
+	text-decoration: none;
+}
+@keyframes guessPop {
+	1% { opacity: 0; }
+	100% { opacity: 1; }
+}
+#guessBoard {
+	display: none;
+	font-family: Arial, "Sans-Serif";
+	font-size: 24px;
+	padding: 0 3rem;
+	text-align: center;
+	width: fit-content;
+	margin: 0 auto;
+}
+
+#guessBoard table{
+	background-color: #ccc;
+	padding: 5px;
+	-moz-border-radius: 12px;
+	border-radius: 12px;
+	border: 1px solid #000;
+	width: 100%;
+}
+
+#guessBoard table tr th {
+	font-size: 1rem;
+	letter-spacing: 0.1rem;
+}
+
+#guessBoard table tr td {
+	border: 1px solid silver;
+	background-color: #fff;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	display: table-cell;
+}
+
+
+#guessBoard table tr td.disabled {
+	background-color: #fff;
+	color: #eee;
+}
+
+#guessBoard table tr td a {
+	text-decoration: none;
+	color: black;
+	display: block;
+	height: max-content;
+	position: relative;
+}
+
+#guessBoard table tr td.disabled a{
+	color: #eee;
+}
+
+.left {
+	font-size: .75rem;
+	margin: 0 0 0 0.2rem;
+	letter-spacing: 0.06rem;
+}
+
+.left::before {
+	content: "[";
+}
+
+.left::after {
+	content: "]";
+}
+
+.closeBox {
+	font-size: 1rem;
+	text-align: center;
+	padding: 0 0.2rem;
+	background-color: #fff;
+	border-radius: .25rem;
+}
+
+#gridSettings {
+	position:fixed;
+	left: 0%;
+	top: 0%;
+	width: 100%;
+	height: 100%;
+	background-color: #f9f9f9;
+	z-index: 999;
+	text-align: center;
+	overflow-y: scroll;
+	-webkit-text-size-adjust: 100%; /* prevents text size from changing on orientation change */
+    background-image:
+      repeating-linear-gradient(#eee 0 1px, transparent 2px 100%),
+      repeating-linear-gradient(90deg, #eee 0 1px, #fff 2px 100%);
+    background-size: 25px 25px;
+    animation: gridmove;
+    animation-timing-function: linear;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+}
+#gridSettings div p {
+	padding: 0 1rem;
+}
+#gridSettings table tr td { text-align: left;}
+#gridSettings table tr td input {
+    width: 9rem;
+}
+#gridSettings table tr td select {
+    width: 10rem;
+}
+.score {
+	background: radial-gradient( #fff, transparent);
+    display: block;
+    height: auto;
+    /* margin-top: 2rem; */
+    padding: 1rem;
+}
+.score div {
+	display: block;
+	margin-bottom: 1em;
+	text-align:center;
+}
+.levelButton {
+	font-family: Arial, "Sans-Serif";
+	font-size: 12px;
+	border: 2px solid silver;
+	text-decoration: none;
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	padding: 4px 8px;
+	margin: 5px;
+	float: left;
+	background-color: black;
+	color: white;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+}
+.levelButton:visited {
+	background-color: white;
+	color: gray;
+}
+#gridSpace {
+	text-align: center;
+	padding: 30px 30px;
+}
+#fadeOut {
+	background-color: #000;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	-moz-opacity:0.5;
+	-khtml-opacity: 0.5;
+	opacity: 0.5;
+}
+#medium, #hard {
+	display: none;
+	}
+.levelSet {
+	display: block;
+	float: left;
+	text-decoration: none;
+	border: 1px solid silver;
+	padding: 3px 6px;
+	color: white;
+	background-color: #666;
+	margin: 10px 22px;
+	width: 22%;
+	height: 30px;
+	line-height: 30px;
+}
+#feedback {
+	font-weight: bold;
+}
+#title {
+	font-weight: bold;
+	font-size: 24px;
+	display: block;
+	clear: both;
+}
+.randomSeed {
+    text-decoration: none;
+    font-weight: bold;
+}
+#customPuzzleSettings {
+	display: block;
+}
+#showSeed {
+  float: right;
+}
+
+@keyframes goodCheck {
+	0% { border: 3px solid lightgreen; }
+	50% { border: 3px solid green; }
+	100% { border: 3px solid lightgreen; }
+}
+
+@keyframes badCheck {
+	0% { border: 3px solid orange; }
+	50% { border: 3px solid red; }
+	100% { border: 3px solid orange; }
+}
+
+.good {
+	background-color: green;
+	/* animation-name: goodCheck;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+	padding: -3px; */
+}
+
+.bad {
+	background-color: red;
+	/* animation-name: badCheck;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+	padding: -3px; */
+}
+
+@keyframes solved {
+	0% { transform: rotate(0deg);background-color:#000; }
+	100% { transform: rotate(360deg);background-color:green;}
+	/* 0% { color: #000; background-color: #fff; }
+	50% { color: lightgreen; background-color: green; }
+	100% { color: #000; background-color: #fff; } */
+}
+
+.solved {
+	animation-name: solved;
+	animation-duration: 1s;
+	animation-iteration-count: 5;
+}

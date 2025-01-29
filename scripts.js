@@ -3,6 +3,8 @@ var toGuess = 0;
 var solved = true;
 var timer = -1;
 
+const loop1 = new Audio('./audio/loop1.wav');
+
 function newSeed(){
     document.getElementById('seed').value=Math.round(Math.random()*99999999999);
 }
@@ -26,6 +28,9 @@ function setToday(size,empty){
 
 var availableNumbers = [];
 function makeGrid() {
+	setInterval(() => {
+		// loop1.play();
+	}, 4000);
 	availableNumbers = []; // reset
 	if ( document.getElementById("grid")){
 		document.getElementById("gridSpace").removeChild(document.getElementById("grid"));
@@ -224,7 +229,7 @@ function guessBoard(x,y) {
 	// document.getElementById("guessBoard").style.top = mouseY+"px";
 }
 
-function setCell_disabled(v) {
+function setCell_disabled(v) {	
 	var thisX = document.getElementById("currentX").value;
 	var thisY = document.getElementById("currentY").value;
 	let oldValue = document.getElementById('cell_'+thisX+'-'+thisY).innerHTML;
@@ -247,12 +252,14 @@ function setCell(element){
 	// console.log(element,previousElement);
 
 	// you've won, it's time to stop.
+
 	if ( solved === true ){
 		console.log("solved")
 		return;
 	}
 	
 	if ( previousElement != null ){
+		new Audio('./audio/click2.wav').play();
 
 		let oldNum = previousElement.innerHTML.match('[1-9]')[0];
 		let newNum = element.innerHTML.match('[1-9]')[0];
@@ -270,6 +277,8 @@ function setCell(element){
 
 	}
 	else {
+		new Audio('./audio/click1.wav').play();
+
 		// console.log(element);
 		element.parentNode.classList += " active";
 		previousElement = element;

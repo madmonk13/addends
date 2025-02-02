@@ -385,3 +385,30 @@ button, select, input {
 	animation-duration: 1s;
 	animation-iteration-count: 5;
 }
+
+
+
+#audioSettings {
+	display: none;
+	z-index: 9;
+	position: absolute;
+	top: 0;
+	background: rgba(255,255,255,0.9);
+	padding: 23vh 0 0 0;
+	border: 2px solid #000;
+	line-height: 7vh;
+	box-shadow: 0vh 1vh 5vh #000;
+	border-radius: 1vh;
+	left: 0;
+	margin: 0;
+	height: 100%;
+	width:100%;
+	text-align: center;
+  #volume {
+	margin-bottom:-1vh;
+  }
+}
+
+#toggleAudioSettings {
+	z-index: 9999;
+}

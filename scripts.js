@@ -3,7 +3,8 @@ var toGuess = 0;
 var solved = true;
 var timer = -1;
 
-const loop1 = new Audio('./audio/loop1.wav');
+const loop1 = new Audio('./audio/music.mp3');
+loop1.loop = true;
 
 function newSeed(){
     document.getElementById('seed').value=Math.round(Math.random()*99999999999);
@@ -28,9 +29,9 @@ function setToday(size,empty){
 
 var availableNumbers = [];
 function makeGrid() {
-	setInterval(() => {
-		// loop1.play();
-	}, 4000);
+	if ( document.getElementById("music").checked ){
+		loop1.play();
+	}
 	availableNumbers = []; // reset
 	if ( document.getElementById("grid")){
 		document.getElementById("gridSpace").removeChild(document.getElementById("grid"));
@@ -217,18 +218,6 @@ function whatsLeft(){
 	checkGrid();
 }
 
-
-function guessBoard(x,y) {
-	return;
-	// whatsLeft();
-	// console.log(availableNumbers);
-	// document.getElementById("currentX").value=x;
-	// document.getElementById("currentY").value=y;
-	// document.getElementById("guessBoard").style.display = "block";
-	// document.getElementById("guessBoard").style.left = mouseX+"px";
-	// document.getElementById("guessBoard").style.top = mouseY+"px";
-}
-
 function setCell_disabled(v) {	
 	var thisX = document.getElementById("currentX").value;
 	var thisY = document.getElementById("currentY").value;
@@ -242,7 +231,6 @@ function setCell_disabled(v) {
 		moves++;
 	}
 	document.getElementById('cell_'+thisX+'-'+thisY).innerHTML = v;
-	document.getElementById("guessBoard").style.display = "none";
 	checkGrid();
 	document.getElementById("movesHere").innerHTML = moves+" guesses / "+toGuess + " cells";
 }
@@ -259,7 +247,9 @@ function setCell(element){
 	}
 	
 	if ( previousElement != null ){
-		new Audio('./audio/click2.wav').play();
+		if ( document.getElementById("effects").checked ){
+			new Audio('./audio/click2.mp3').play();
+		}
 
 		let oldNum = previousElement.innerHTML.match('[1-9]')[0];
 		let newNum = element.innerHTML.match('[1-9]')[0];
@@ -277,8 +267,9 @@ function setCell(element){
 
 	}
 	else {
-		new Audio('./audio/click1.wav').play();
-
+		if ( document.getElementById("effects").checked ){
+			new Audio('./audio/click1.mp3').play();
+		}
 		// console.log(element);
 		element.parentNode.classList += " active";
 		previousElement = element;
@@ -286,12 +277,6 @@ function setCell(element){
 
 
 	return;
-}
-
-
-
-function closeGuess(){
-	document.getElementById("guessBoard").style.display = "none";
 }
 
 function checkGrid()
@@ -395,3 +380,25 @@ function init(){
     newSeed();
 }
 
+function setVolume(){
+	var volume = document.getElementById("volume").value;
+	loop1.volume = volume;
+}
+
+function toggleMusic(){
+	if ( document.getElementById("music").checked ){
+		loop1.play();
+	}
+	else {
+		loop1.pause();
+	}
+}
+
+function toggleAudioSettings(){
+	if ( document.getElementById("audioSettings").style.display == "block" ){
+		document.getElementById("audioSettings").style.display = "none";
+	}
+	else {
+		document.getElementById("audioSettings").style.display = "block";
+	}
+}

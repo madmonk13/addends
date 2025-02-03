@@ -4,6 +4,7 @@ var solved = true;
 var timer = -1;
 
 const loop1 = new Audio('./audio/music.mp3');
+const end = new Audio('./audio/end.mp3');
 loop1.loop = true;
 
 function newSeed(){
@@ -12,7 +13,6 @@ function newSeed(){
 
 function checkSeed(){
     x=document.getElementById('seed').value.replace(/\D/g,'');
-    console.log(x);
     if ( x == "" ){
         newSeed();
     }
@@ -28,7 +28,8 @@ function setToday(size,empty){
 }
 
 var availableNumbers = [];
-function makeGrid() {
+
+function makeGrid(seed,size,empty,tutorial) {
 	if ( document.getElementById("music").checked ){
 		loop1.play();
 	}
@@ -36,9 +37,15 @@ function makeGrid() {
 	if ( document.getElementById("grid")){
 		document.getElementById("gridSpace").removeChild(document.getElementById("grid"));
 	}
-    var seed = document.getElementById('seed').value;
-    var size = document.getElementById('size').value;
-    var empty = document.getElementById('empty').value;
+    if (seed == undefined ) { 
+		seed = document.getElementById('seed').value;
+	}
+	if (size == undefined ) {
+    	var size = document.getElementById('size').value;
+	}
+	if (empty == undefined ) {
+    	var empty = document.getElementById('empty').value;
+	}
 	document.getElementById("showSeed").innerHTML = "Puzzle #"+seed+"x"+size;
     var d = 0;
 	moves = 0;
@@ -48,14 +55,14 @@ function makeGrid() {
 	document.getElementById("fadeOut").style.display="none";
 	var useSequence = new Array();
 	let useNums = [];
-    for ( a = 0; a <=size*size; a++ ){
+	for ( a = 0; a <=size*size; a++ ){
 		if ( useNums.length == 0 ){
 			useNums = [1,2,3,4,5,6,7,8,9];
 		}
 		let pR = ( parseInt(seed) + a )%useNums.length;
 		useSequence.push(useNums[pR]);
 		useNums.splice(pR,1);
-	}
+	}	
     var removeCells = [];
     var toRemove = Math.round(size*size*(empty/100));
 	toGuess = toRemove;
@@ -70,7 +77,7 @@ function makeGrid() {
         }
         i += parseInt(seed.charAt(d%seed.length));
         d++;
-    } 
+    }
     var placeEmpty = Math.ceil((45*size)/empty);
 	var emptyCheck = 0;
 	var runningTotal = seed%size;
@@ -153,7 +160,13 @@ function makeGrid() {
 	thisRow.appendChild(thisCell);
 	gridHTML.appendChild(thisRow);
 	document.getElementById("gridSpace").appendChild(gridHTML);
-	checkGrid();
+	if ( tutorial == true ){
+		document.getElementById('feedback').innerHTML = "Lines and columns with a green tile at the end correctly add up. "+
+		"Those with red tiles do not.  "+
+		"Your job is to swap the black tiles so that all lines and columns add up to the number at the end.<br/><br/>"+
+		"The tiles 4 and 2 are in the wrong place.  "+
+		"Click the 4 and then the 2 to swap them.";
+	}
 	whatsLeft();
 }
 
@@ -173,6 +186,9 @@ function newElement(tagName,useClass,useId,content){
 }
 
 function shuffleArray(array) {
+	if ( array.length == 2 ){
+		return array.reverse();
+	}
 	let output = [];
 	var seed = document.getElementById('seed').value;
     for (let i = array.length - 1; i >= 0; i--) {
@@ -205,14 +221,19 @@ function whatsLeft(){
 	
 	for ( var i = 1; i <= 9; i++ ){
 		let count = availableNumbers.filter( x => x === i ).length;
-		document.getElementById("guess"+i).getElementsByTagName("span")[0].innerHTML = count;
-		if ( count == 0 ){
-			document.getElementById("guess"+i).removeAttribute("onclick");
-			document.getElementById("guess"+i).parentElement.className = "disabled";
+		try {
+			document.getElementById("guess"+i).getElementsByTagName("span")[0].innerHTML = count;
+			if ( count == 0 ){
+				document.getElementById("guess"+i).removeAttribute("onclick");
+				document.getElementById("guess"+i).parentElement.className = "disabled";
+			}
+			else {
+				document.getElementById("guess"+i).setAttribute("onclick","setCell(this);");
+				document.getElementById("guess"+i).parentElement.className = "";
+			}
 		}
-		else {
-			document.getElementById("guess"+i).setAttribute("onclick","setCell(this);");
-			document.getElementById("guess"+i).parentElement.className = "";
+		catch (e) {
+			//console.log(e);
 		}
 	}
 	checkGrid();
@@ -330,7 +351,6 @@ function checkGrid()
 		document.getElementById("checkD").className = "check good";
 	}
 	if (checksOut===true) {
-		solved = true;
 		congratulate();
 	}
 }
@@ -341,6 +361,10 @@ function newGrid() {
 }
 function congratulate() {
 	document.getElementById("feedback").innerHTML = "You solved the grid!";
+	if ( document.getElementById("effects").checked ){
+		end.play();
+	}
+
     for ( var i in document.getElementsByClassName("gridCell dynamic")){
         setTimeout(document.getElementsByClassName("gridCell dynamic")[i].className += " solved",1000);
 	} 

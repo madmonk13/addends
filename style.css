@@ -76,6 +76,7 @@ button, select, input {
     color: #000;
     font-weight: bold;
     background: linear-gradient(#fff,#bbb);
+	margin: 3px;
 }
 
 .grid {

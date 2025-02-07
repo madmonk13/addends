@@ -3,7 +3,7 @@ var toGuess = 0;
 var solved = true;
 var timer = -1;
 
-const loop1 = new Audio('./audio/music.mp3');
+const loop1 = new Audio('./audio/loop2.mp3');
 const end = new Audio('./audio/end.mp3');
 loop1.loop = true;
 
@@ -365,8 +365,8 @@ function congratulate() {
 		end.play();
 	}
 
-    for ( var i in document.getElementsByClassName("gridCell dynamic")){
-        setTimeout(document.getElementsByClassName("gridCell dynamic")[i].className += " solved",1000);
+    for ( var i=0;  i<document.getElementsByClassName("gridCell dynamic").length; i++){
+        document.getElementsByClassName("gridCell dynamic")[i].className += " solved";
 	} 
 	solved = true;
 }

@@ -47,38 +47,38 @@
 		<div id="customPuzzleSettings">
 			<hr/>
 			<h2>Custom Puzzle:</h2>
-			<table align="center">
-				<tr>
-					<td>Seed:</td>
-					<td>
-						<input name="seed" id="seed" type="number" onblur="checkSeed();">
-						<button onclick="newSeed();">&#x21bb;</button>
-				</tr>
-				<tr>
-					<td>Size:</td>
-					<td>
-					<select name="size" id="size" type="text">
-						<option value=5>5x5</option>
-						<option value=6>6x6</option>
-						<option value=7>7x7</option>
-						<option value=8>8x8</option>
-						<option value=9>9x9</option>
-						<option value=10>10x10</option>
-					</select>
-				</td>
-				</tr>
-				<tr>
-					<td>Difficulty:</td>
-					<td>
-						<select name="empty" id="empty">
-							<option value=20>Easy: 20%</option>
-							<option value=25>Intermediate: 25%</option>
-							<option value=30>Hard: 30%</option>
-							<option value=35>Punishing: 35%</option>
+				<table class="center-table">
+					<tr>
+						<td>Seed:</td>
+						<td>
+							<input name="seed" id="seed" type="number" onblur="checkSeed();">
+							<button onclick="newSeed();">&#x21bb;</button>
+					</tr>
+					<tr>
+						<td>Size:</td>
+						<td>
+						<select name="size" id="size" type="text">
+							<option value=5>5x5</option>
+							<option value=6>6x6</option>
+							<option value=7>7x7</option>
+							<option value=8>8x8</option>
+							<option value=9>9x9</option>
+							<option value=10>10x10</option>
 						</select>
 					</td>
-				</tr>
-			</table>
+					</tr>
+					<tr>
+						<td>Difficulty:</td>
+						<td>
+							<select name="empty" id="empty">
+								<option value=20>Easy: 20%</option>
+								<option value=25>Intermediate: 25%</option>
+								<option value=30>Hard: 30%</option>
+								<option value=35>Punishing: 35%</option>
+							</select>
+						</td>
+					</tr>
+				</table>
 			<button onclick="makeGrid()">Generate Grid</button>
 		</div>
 	</div>

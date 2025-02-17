@@ -427,3 +427,8 @@ button, select, input {
 #toggleAudioSettings {
 	z-index: 9999;
 }
+
+.center-table {
+    margin-left: auto;
+    margin-right: auto;
+}

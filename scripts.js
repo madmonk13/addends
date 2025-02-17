@@ -7,6 +7,8 @@ var solution = [];
 const loop1 = new Audio('./audio/loop2.mp3');
 const end = new Audio('./audio/end.mp3');
 const hint = new Audio('./audio/hint.mp3');
+const click1 = new Audio('./audio/click1.mp3');
+const click2 = new Audio('./audio/click2.mp3');
 loop1.loop = true;
 
 function newSeed(){
@@ -241,61 +243,58 @@ function whatsLeft(){
 }
 
 function setCell_disabled(v) {	
-	var thisX = document.getElementById("currentX").value;
-	var thisY = document.getElementById("currentY").value;
-	let oldValue = document.getElementById('cell_'+thisX+'-'+thisY).innerHTML;
-	if ( oldValue != 0 ){
-		availableNumbers.push(parseFloat(oldValue));
-		console.log(oldValue,availableNumbers);
-	}
-	else {
-		availableNumbers.splice(availableNumbers.indexOf(v),1);
-		moves++;
-	}
-	document.getElementById('cell_'+thisX+'-'+thisY).innerHTML = v;
-	checkGrid();
-	document.getElementById("movesHere").innerHTML = moves+" guesses / "+toGuess + " cells";
+    const thisX = document.getElementById("currentX").value;
+    const thisY = document.getElementById("currentY").value;
+    const cell = document.getElementById(`cell_${thisX}-${thisY}`);
+    const oldValue = cell.innerHTML;
+
+    if (oldValue != 0) {
+        availableNumbers.push(parseFloat(oldValue));
+        console.log(oldValue, availableNumbers);
+    } else {
+        const index = availableNumbers.indexOf(v);
+        if (index > -1) {
+            availableNumbers.splice(index, 1);
+        }
+        moves++;
+    }
+
+    cell.innerHTML = v;
+    checkGrid();
+    document.getElementById("movesHere").innerHTML = `${moves} guesses / ${toGuess} cells`;
 }
 
-var previousElement = null;
-function setCell(element){
-	// you've won, it's time to stop.
-	if ( solved === true ){
-		console.log("solved")
-		return;
-	}
-	
-	if ( previousElement != null ){
-		if ( document.getElementById("effects").checked ){
-			new Audio('./audio/click2.mp3').play();
-		}
+let previousElement = null;
 
-		let oldNum = previousElement.innerHTML.match('[1-9]')[0];
-		let newNum = element.innerHTML.match('[1-9]')[0];
+function setCell(element) {
+    if (solved) {
+        console.log("solved");
+        return;
+    }
 
-		previousElement.innerHTML = newNum;
-		element.innerHTML = oldNum;
-		element.classList += " set";
-		element.parentNode.className = "gridCell dynamic";
-		previousElement.parentNode.className = "gridCell dynamic";
-		previousElement = null;
-		checkGrid();
+    if (previousElement) {
+        if (document.getElementById("effects").checked) {
+            click2.play();
+        }
 
-		moves++;
+        const oldNum = previousElement.innerHTML.match('[1-9]')[0];
+        const newNum = element.innerHTML.match('[1-9]')[0];
 
-		return;
-
-	}
-	else {
-		if ( document.getElementById("effects").checked ){
-			new Audio('./audio/click1.mp3').play();
-		}
-		element.parentNode.className += "gridCell dynamic active";
-		previousElement = element;
-	}
-
-
-	return;
+        previousElement.innerHTML = newNum;
+        element.innerHTML = oldNum;
+        element.classList.add("set");
+        element.parentNode.classList.add("dynamic");
+        previousElement.parentNode.classList.add("dynamic");
+        previousElement = null;
+        checkGrid();
+        moves++;
+    } else {
+        if (document.getElementById("effects").checked) {
+            click1.play();
+        }
+        element.parentNode.classList.add("active");
+        previousElement = element;
+    }
 }
 
 function checkGrid()

@@ -339,9 +339,10 @@ button, select, input {
     font-weight: bold;
 }
 #customPuzzleSettings {
-	display: block;
+	display: none;
 }
 #showSeed {
+	display: none;
   float: right;
 }
 
@@ -355,6 +356,12 @@ button, select, input {
 	0% { border: 3px solid orange; }
 	50% { border: 3px solid red; }
 	100% { border: 3px solid orange; }
+}
+
+@keyframes showHint {
+	0% { color: #fff; background-color: #000;}
+	50% { color: blue; background: #fff;}
+	100% { color: #fff; background-color: #000;}
 }
 
 .good {
@@ -373,10 +380,17 @@ button, select, input {
 	padding: -3px; */
 }
 
+.hint {
+	animation-name: showHint;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+}
+
+
 @keyframes solved {
-	0% { transform: rotate(0deg);background-color:#000; color:#fff;}
+	0% { transform: rotate(0deg);background-color:#000; color:silver;}
 	50% { transform: rotate(360deg);background-color:green;color: #fff;}
-	100% { transform: rotate(360deg);color: #000; background-color: #fff; }
+	100% { transform: rotate(360deg);color: #000; background-color: silver; }
 }
 
 .solved {

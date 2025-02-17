@@ -11,8 +11,9 @@
 </HEAD>
  <BODY onload="init();">
     <button class="button" onclick="newGrid();">< Main Menu</button>
-	<input type="button" class="button" id="toggleAudioSettings" value="&#128266;" onclick="toggleAudioSettings();">
+	<!-- <input type="button" class="button" id="hint" value="Hint" onclick="showHint();"> -->
 	<div id="showSeed"></div>
+	<input type="button" class="button" id="toggleAudioSettings" value="&#128266;" onclick="toggleAudioSettings();">
 
 
     <input type='hidden' id='currentX'>
@@ -35,10 +36,13 @@
         <p>Also, all numbers in the center diagonal line must add up to the number on the bottom right.</p>
 		<button onclick="makeGrid('99','4','15',true);">Play Tutorial Level</button>
 		<br/>
-		<h2>Today's Puzzles:</h2>
+		<h2>Today's Grids:</h2>
 		<button onclick="setToday(5,20);">Easy</button>
 		<button onclick="setToday(6,30);">Intermediate</button>
 		<button onclick="setToday(7,40);">Hard</button>
+		<h2>All Grids:</h2>
+		<input type="number" id="level" value="1" min="1" max="9999">
+		<button onclick="playCurrent()">Play</button>
 		<div id="customPuzzleSettings">
 			<hr/>
 			<h2>Custom Puzzle:</h2>
@@ -67,9 +71,9 @@
 					<td>
 						<select name="empty" id="empty">
 							<option value=20>Easy: 20%</option>
-							<option value=30>Intermediate: 30%</option>
-							<option value=40>Hard: 40%</option>
-							<option value=75>Punishing: 75%</option>
+							<option value=25>Intermediate: 25%</option>
+							<option value=30>Hard: 30%</option>
+							<option value=35>Punishing: 35%</option>
 						</select>
 					</td>
 				</tr>
@@ -85,9 +89,6 @@
 	<input type="checkbox" checked="checked" id="effects">
 	<label for="music">Sound Effects</label>
 	<br/>
-	<!-- <label for="volume">Volume</label>
-	<input type="range" id="volume" min="0" max="1" step="0.1" value="1" onchange="setVolume();">
-	<br/> -->
 	<input type="button" class="button" value="< Back to Game" onclick="toggleAudioSettings();">
 </div>
 <div id="fadeOut"></div>

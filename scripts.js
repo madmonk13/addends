@@ -401,6 +401,9 @@ function showTimer() {
 function init(){
     newSeed();
 	loadLevel();
+	let date = new Date();
+	document.getElementById('todaysDate').innerHTML = date.getFullYear() +"-"+ date.getMonth() +"-"+ date.getDate();
+
 }
 
 function setVolume(){

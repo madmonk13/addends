@@ -400,6 +400,7 @@ function showTimer() {
 
 function init(){
     newSeed();
+	loadLevel();
 }
 
 function setVolume(){
@@ -472,5 +473,16 @@ function showHint(){
 			console.log(swap1,swap2);
 			return;
 		}
+	}
+}
+
+function saveLevel(){
+	document.cookie = "level=" + document.getElementById("level").value + "; SameSite=Strict";
+}
+
+function loadLevel(){
+	let level = document.cookie.match(/level=(\d+)/);
+	if ( level != null ){
+		document.getElementById("level").value = level[1];
 	}
 }

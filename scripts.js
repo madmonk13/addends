@@ -282,9 +282,10 @@ function setCell(element) {
 
         previousElement.innerHTML = newNum;
         element.innerHTML = oldNum;
-        element.classList.add("set");
-        element.parentNode.classList.add("dynamic");
-        previousElement.parentNode.classList.add("dynamic");
+//        element.classList.add("set");
+//        element.parentNode.classList.add("dynamic");
+//        previousElement.parentNode.classList.add("dynamic");
+        previousElement.parentNode.classList.remove("active");
         previousElement = null;
         checkGrid();
         moves++;

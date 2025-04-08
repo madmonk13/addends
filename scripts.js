@@ -34,6 +34,8 @@ function setToday(size,empty){
 var availableNumbers = [];
 
 function makeGrid(seed,size,empty,tutorial) {
+	// timer = 0;
+	document.getElementById("timeHere").innerHTML = "00:00:00";
 	if ( document.getElementById("music").checked ){
 		loop1.play();
 	}
@@ -487,5 +489,14 @@ function loadLevel(){
 	let level = document.cookie.match(/level=(\d+)/);
 	if ( level != null ){
 		document.getElementById("level").value = level[1];
+	}
+}
+
+function toggleZen(){
+	if ( document.getElementById("zen").checked ){
+		document.getElementById("timeHere").style.display="none";
+	}
+	else {
+		document.getElementById("timeHere").style.display="block";
 	}
 }

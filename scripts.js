@@ -402,6 +402,7 @@ function showTimer() {
 
 function init(){
     newSeed();
+	populateLevels();
 	loadLevel();
 	let date = new Date();
 	document.getElementById('todaysDate').innerHTML = date.getFullYear() +"-"+ date.getMonth() +"-"+ date.getDate();
@@ -452,9 +453,6 @@ function playCurrent(){
     document.getElementById('size').value = size;
     document.getElementById('empty').value = e;
 	makeGrid();
-	
-
-
 }
 
 function showHint(){
@@ -488,8 +486,12 @@ function saveLevel(){
 function loadLevel(){
 	let level = document.cookie.match(/level=(\d+)/);
 	if ( level != null ){
-		document.getElementById("level").value = level[1];
+		level = 1;
 	}
+}
+
+function updateButton(){
+	document.getElementById("levelPlay").innerHTML = "Play Level "+level
 }
 
 function toggleZen(){
@@ -498,5 +500,15 @@ function toggleZen(){
 	}
 	else {
 		document.getElementById("timeHere").style.display="block";
+	}
+}
+
+function populateLevels(){
+	let level = document.getElementById("level");
+	for ( let i = 1; i <= 150; i++ ){
+		let newOption = document.createElement("option");
+			newOption.value = i;
+			newOption.innerHTML = "Grid #"+i;
+		level.appendChild(newOption);
 	}
 }

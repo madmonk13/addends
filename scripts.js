@@ -405,7 +405,7 @@ function init(){
 	populateLevels();
 	loadLevel();
 	let date = new Date();
-	document.getElementById('todaysDate').innerHTML = date.getFullYear() +"-"+ date.getMonth() +"-"+ date.getDate();
+	document.getElementById('todaysDate').innerHTML = date.getFullYear() +"-"+ (date.getMonth()+1) +"-"+ date.getDate();
 
 }
 

@@ -94,12 +94,14 @@ function makeGrid(seed,size,empty,tutorial) {
 	var xCheck = new Array();
 	for (x=0;x<size;x++)	{xCheck[x] = 0;}
 	// Generate the Grid
-	var gridHTML = document.createElement("div");
+	var gridHTML = document.createElement("table");
 		gridHTML.classList.add ("grid","size-"+size);
 		gridHTML.id = "grid";
+		gridHTML.setAttribute("align","center");
     var c = 0;
 	for (y=0;y<size;y++){
 		var yCheck = 0;
+		var thisRow = document.createElement("tr");
 		cellVal += y;
 		for (x=0;x<size;x++)
 		{
@@ -111,17 +113,17 @@ function makeGrid(seed,size,empty,tutorial) {
 			useSequence.splice(getChar,1);
 			runningTotal += useVal;
 			xCheck[x] += useVal;
-				var thisCell = document.createElement("button");
+			var thisCell = document.createElement('td');
 				thisCell.className = "gridCell";
-				thisCell.setAttribute("data-x", x);
-				thisCell.setAttribute("data-y", y);
             if ( removeCells.includes(c) ){
 				availableNumbers.push(useVal);
 				solution.push(useVal);
-				thisCell.innerHTML = "0";
-					thisCell.id = "cell_"+x+"-"+y;
-					thisCell.setAttribute ("onclick","setCell(this);");
+				var thisLink = document.createElement("div");
+					thisLink.innerHTML = "0";
+					thisLink.id = "cell_"+x+"-"+y;
+					thisLink.setAttribute ("onclick","setCell(this);");
 					thisCell.classList.add("dynamic");
+				thisCell.appendChild(thisLink);
 				emptyCheck++;
 				runningTotal = 0;
 			}
@@ -129,9 +131,8 @@ function makeGrid(seed,size,empty,tutorial) {
 			{
 				thisCell.id = "cell_"+x+"-"+y;
 				thisCell.innerHTML = useVal;
-				thisCell.setAttribute("disabled", true);
 			}
-			gridHTML.appendChild(thisCell);
+			thisRow.appendChild(thisCell);
 			yCheck += useVal;
 			if (x==y)
 			{
@@ -140,28 +141,29 @@ function makeGrid(seed,size,empty,tutorial) {
 			var prev = useVal;
             c++;
 		}
-		thisCell = document.createElement("button");
+		thisCell = document.createElement("td");
 			thisCell.className = "check";
 			thisCell.id = "checkY"+y;
-			thisCell.setAttribute("disabled", true);
 			thisCell.innerHTML = yCheck;
-		gridHTML.appendChild(thisCell);
+		thisRow.appendChild(thisCell);
+		gridHTML.appendChild(thisRow);
 	}
+	thisRow = document.createElement("tr");
+		thisRow.className = "checkRow";
 	for (x=0;x<size;x++)
 	{
-		thisCell = document.createElement("button");
+		thisCell = document.createElement("td");
 			thisCell.className = "check";
 			thisCell.id = "checkX"+x;
-			thisCell.setAttribute("disabled", true);
 			thisCell.innerHTML = xCheck[x];
-		gridHTML.appendChild(thisCell);
+		thisRow.appendChild(thisCell);
 	}
-	thisCell = document.createElement("button");
+	thisCell = document.createElement("td");
 		thisCell.className = "check";
 		thisCell.id = "checkD";
-		thisCell.setAttribute("disabled", true);
 		thisCell.innerHTML = dCheck;
-	gridHTML.appendChild(thisCell);
+	thisRow.appendChild(thisCell);
+	gridHTML.appendChild(thisRow);
 	document.getElementById("gridSpace").appendChild(gridHTML);
 	if ( tutorial == true ){
 		document.getElementById('feedback').innerHTML = "Lines and columns with a green tile at the end correctly add up. "+
@@ -207,13 +209,20 @@ function shuffleArray(array) {
 function whatsLeft(){
 	availableNumbers = shuffleArray(availableNumbers);
 	var grid = document.getElementById("grid");
-	var cells = grid.getElementsByTagName("button");
-	for (c=0;c<cells.length-1;c++){
-		if ( cells[c].classList.contains("dynamic") ){
-			cells[c].innerHTML = availableNumbers[0];
-			availableNumbers.splice(0,1);
-		}		
+	var rows = grid.getElementsByTagName("tr");
+	for (y=0;y<rows.length-1;y++){
+		var col = rows[y].getElementsByTagName("td");
+		for ( x=0;x<col.length-1;x++){
+			if ( col[x].classList.contains("dynamic") ){
+				col[x].getElementsByTagName("div")[0].innerHTML = availableNumbers[0];
+				availableNumbers.splice(0,1);
+			}
+		}
+
+		
 	}
+
+
 	
 	for ( var i = 1; i <= 9; i++ ){
 		let count = availableNumbers.filter( x => x === i ).length;
@@ -278,7 +287,7 @@ function setCell(element) {
 //        element.classList.add("set");
 //        element.parentNode.classList.add("dynamic");
 //        previousElement.parentNode.classList.add("dynamic");
-        previousElement.classList.remove("active");
+        previousElement.parentNode.classList.remove("active");
         previousElement = null;
         checkGrid();
         moves++;
@@ -286,52 +295,65 @@ function setCell(element) {
         if (document.getElementById("effects").checked) {
             click1.play();
         }
-        element.classList.add("active");
+        element.parentNode.classList.add("active");
         previousElement = element;
     }
 }
 
-function checkGrid(){
-	let goodLines = 0;
-	let size = document.querySelectorAll('[data-x="0"]').length;
-	for (let x = 0; x < size; x++){
-		let cells = document.querySelectorAll(`[data-x="${x}"]`);
-		let t = 0;
-		for ( var i = 0; i < cells.length; i++ ){
-			t += parseInt(cells[i].innerHTML);
-			document.getElementById(`checkX${x}`).className = "bad";
-			if (t == document.getElementById(`checkX${x}`).innerHTML){
-				document.getElementById(`checkX${x}`).className = "good";
-				goodLines++;
-			}
+function checkGrid()
+{
+	var checksOut = true;
+	var hasZeros = false;  // POSSIBLE TO SOLVE WITH ZEROS PRESENT - NEED TO FIX THIS!!!
+	var gridCheck = document.getElementById("grid");
+	var checkSize = parseFloat(gridCheck.getElementsByTagName("tr").length);
+	for (y=0;y<(checkSize-1);y++)
+	{
+		var checkX = 0;
+		for (x=0;x<(checkSize-1);x++){
+			var thisVal = parseFloat(document.getElementById("cell_"+x+"-"+y).innerHTML);
+			checkX = checkX + thisVal;
+		}
+		if (checkX!=parseFloat(document.getElementById("checkY"+y).innerHTML)) {
+			document.getElementById("checkY"+y).className = "check bad";
+			checksOut = false;
+		}
+		else {
+			document.getElementById("checkY"+y).className = "check good";
 		}
 	}
-	for (let y = 0; y < size; y++){
-		let cells = document.querySelectorAll(`[data-y="${y}"]`);
-		let t = 0;
-		for ( var i = 0; i < cells.length; i++ ){
-			t += parseInt(cells[i].innerHTML);
-			document.getElementById(`checkY${y}`).className = "bad";
-			if (t == document.getElementById(`checkY${y}`).innerHTML){
-				document.getElementById(`checkY${y}`).className = "good";
-				goodLines++;
-			}
+
+	for (x2=0;x2<(checkSize-1);x2++)
+	{
+		var checkY = 0;
+		for (y2=0;y2<(checkSize-1);y2++) {
+			var thisVal = parseFloat(document.getElementById("cell_"+x2+"-"+y2).innerHTML);
+			checkY = checkY + thisVal;
+		}
+		if (checkY!=parseFloat(document.getElementById("checkX"+x2).innerHTML)) {
+			document.getElementById("checkX"+x2).className = "check bad";
+			checksOut = false;
+		}
+		else {
+			document.getElementById("checkX"+x2).className = "check good";
 		}
 	}
-	let t = 0;
-	for ( let z=0; z < size; z++ ){
-		t += parseInt(document.getElementById(`cell_${z}-${z}`).innerHTML);
-		document.getElementById(`checkD`).className = "bad";
-		if (t == document.getElementById(`checkD`).innerHTML){
-			document.getElementById(`checkD`).className = "good";
-			goodLines++;
-		}
+
+	var checkZ = 0;
+	for (z=0;z<(checkSize-1);z++){
+		var thisVal = parseFloat(document.getElementById("cell_"+z+"-"+z).innerHTML);
+		checkZ = checkZ + thisVal;
 	}
-	if (goodLines == (size*2)+1){
+	if (checkZ!=parseFloat(document.getElementById("checkD").innerHTML)) {
+		document.getElementById("checkD").className = "check bad";
+		checksOut = false;
+	}
+	else {
+		document.getElementById("checkD").className = "check good";
+	}
+	if (checksOut===true) {
 		congratulate();
 	}
 }
-
 function newGrid() {
 	document.getElementById("gridSettings").style.display="block";
 	document.getElementById("fadeOut").style.display="block";

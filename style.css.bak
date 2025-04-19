@@ -51,7 +51,6 @@ body {
     animation-iteration-count: infinite;
 }
 
-
 .button {
 	background-color: white;
 	text-decoration: none;
@@ -80,47 +79,24 @@ button, select, input {
 	margin: 3px;
 }
 
-@media (orientation: portrait) {
-	.grid {
-		width: 90vw;
-		height: 90vw;
-		padding: 1vw;
-		margin: 5vh auto;
-		max-width: 600px;
-		max-height: 600px;
-		button {
-			font-size: 5vw;
-			margin: 0.5vw
-		}
-	}
-}
-@media (orientation: landscape) {
-	.grid {
-		width: 60vh;
-		height: 60vh;
-		padding: 1vh;
-		margin: 5vh auto;
-		button {
-			font-size: 4vh;
-			margin: 0.5vh
-		}
-	}
-}
-
 .grid {
 	background-color: #ccc;
 	margin-top: 30px;
-	border-radius: 0.5rem;
-    border: 1px solid #666;
-	align-self: center;
-	button {
-		/* font-size: 1rem; */
-		text-align: center;
-		border-radius: 0.25rem;
+	padding: 10px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+    border: 2px solid #666;
 	}
-}
-
-
+.gridCell {
+	font-size: 24px;
+	background-color: #fefefe;
+	padding: 10px;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+	}
 .check {
 	font-size: 20px;
 	background-color: #000000;
@@ -131,63 +107,49 @@ button, select, input {
 	text-align: center;
 	-moz-border-radius: 7px;
 	border-radius: 7px;
-	background-image: none;
 }
 
-.size-4 {
-	display: grid;
-	grid-template-columns: repeat(5, 1fr);	
+.size-6 .gridCell, .size-6 .check {
+	font-size: 18px;
+	width: 26px;
+	height: 26px;
+	padding: 8px;
 }
 
-.size-5 {
-	display: grid;
-	grid-template-columns: repeat(6, 1fr);	
-}
-
-.size-6 {
-	display: grid;
-	grid-template-columns: repeat(7, 1fr);	
-}
-
-.size-7 {
-	display: grid;
-	grid-template-columns: repeat(8, 1fr);
+.size-7 .gridCell, .size-7 .check {
+	font-size: 16px;
+	width: 24px;
+	height: 24px;
+	padding: 6px;
 }
 
 .size-8 .gridCell, .size-8 .check {
-	display: grid;
-	grid-template-columns: repeat(9, 1fr);	
+	font-size: 14px;
+	width: 22px;
+	height: 22px;
+	padding: 4px;
 }
 
 .size-9 .gridCell, .size-9 .check {
-	display: grid;
-	grid-template-columns: repeat(10, 1fr);	
+	font-size: 12px;
+	width: 20px;
+	height: 20px;
+	padding: 4px;
 }
 
 .size-10 .gridCell, .size-10 .check {
-	display: grid;
-	grid-template-columns: repeat(9, 1fr);	
+	font-size: 12px;
+	width: 18px;
+	height: 18px;
+	padding: 4px;
 }
 
-
-.gridCell {
-	color: #000;
-	background-image: none;
-	background-color: #fff;
-
-}
 .dynamic {
-	color: #fff;
-	background-image: none;
 	background-color: #000;
+	color: #fff;
 }
-
-
-button:disabled {
-	border: none;
-}
-
 .dynamic a{
+	color: #fff;
 	text-decoration: none;
 }
 @keyframes guessPop {
@@ -329,7 +291,10 @@ button:disabled {
 	background-color: white;
 	color: gray;
 }
-
+#gridSpace {
+	text-align: center;
+	padding: 30px 30px;
+}
 #fadeOut {
 	background-color: #000;
 	position: fixed;
@@ -401,9 +366,6 @@ button:disabled {
 
 .good {
 	background-color: green;
-	background-image: none;
-	color: #fff;
-	border: none;
 	/* animation-name: goodCheck;
 	animation-duration: 1s;
 	animation-iteration-count: infinite;
@@ -412,9 +374,6 @@ button:disabled {
 
 .bad {
 	background-color: red;
-	background-image: none;
-	color: #fff;
-	border: none;
 	/* animation-name: badCheck;
 	animation-duration: 1s;
 	animation-iteration-count: infinite;

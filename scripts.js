@@ -183,9 +183,14 @@ function makeGrid(seed,size,empty,tutorial) {
 		"Click the 4 and then the 2 to swap them.";
 	}
 	whatsLeft();
+	if ( document.getElementsByClassName("runningTotal")[0].style.display == "block" ){
+		document.getElementById("hints").checked = true;
+	}
+	else {
+		document.getElementById("hints").checked = false;
+	}
 
 
-	
 }
 
 function newElement(tagName,useClass,useId,content){

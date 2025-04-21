@@ -141,26 +141,38 @@ function makeGrid(seed,size,empty,tutorial) {
             c++;
 		}
 		thisCell = document.createElement("button");
+		rt = document.createElement("span");
+			thisCell.value = yCheck;
+			rt.className = "runningTotal";
 			thisCell.className = "check";
 			thisCell.id = "checkY"+y;
 			thisCell.setAttribute("disabled", true);
 			thisCell.innerHTML = yCheck;
+			thisCell.appendChild(rt);
 		gridHTML.appendChild(thisCell);
 	}
 	for (x=0;x<size;x++)
 	{
 		thisCell = document.createElement("button");
+		rt = document.createElement("span");
+		rt.className = "runningTotal";
+			thisCell.value = xCheck[x];
 			thisCell.className = "check";
 			thisCell.id = "checkX"+x;
 			thisCell.setAttribute("disabled", true);
 			thisCell.innerHTML = xCheck[x];
+			thisCell.appendChild(rt);
 		gridHTML.appendChild(thisCell);
 	}
 	thisCell = document.createElement("button");
+	rt = document.createElement("span");
+	rt.className = "runningTotal";
+		thisCell.value = dCheck;
 		thisCell.className = "check";
 		thisCell.id = "checkD";
 		thisCell.setAttribute("disabled", true);
 		thisCell.innerHTML = dCheck;
+		thisCell.appendChild(rt);
 	gridHTML.appendChild(thisCell);
 	document.getElementById("gridSpace").appendChild(gridHTML);
 	if ( tutorial == true ){
@@ -171,6 +183,9 @@ function makeGrid(seed,size,empty,tutorial) {
 		"Click the 4 and then the 2 to swap them.";
 	}
 	whatsLeft();
+
+
+	
 }
 
 function newElement(tagName,useClass,useId,content){
@@ -300,10 +315,11 @@ function checkGrid(){
 		for ( var i = 0; i < cells.length; i++ ){
 			t += parseInt(cells[i].innerHTML);
 			document.getElementById(`checkX${x}`).className = "bad";
-			if (t == document.getElementById(`checkX${x}`).innerHTML){
+			if (t == document.getElementById(`checkX${x}`).value){
 				document.getElementById(`checkX${x}`).className = "good";
 				goodLines++;
 			}
+			document.getElementById(`checkX${x}`).getElementsByTagName("span")[0].innerHTML = t;
 		}
 	}
 	for (let y = 0; y < size; y++){
@@ -312,20 +328,22 @@ function checkGrid(){
 		for ( var i = 0; i < cells.length; i++ ){
 			t += parseInt(cells[i].innerHTML);
 			document.getElementById(`checkY${y}`).className = "bad";
-			if (t == document.getElementById(`checkY${y}`).innerHTML){
+			if (t == document.getElementById(`checkY${y}`).value){
 				document.getElementById(`checkY${y}`).className = "good";
 				goodLines++;
 			}
+			document.getElementById(`checkY${y}`).getElementsByTagName("span")[0].innerHTML = t;
 		}
 	}
 	let t = 0;
 	for ( let z=0; z < size; z++ ){
 		t += parseInt(document.getElementById(`cell_${z}-${z}`).innerHTML);
 		document.getElementById(`checkD`).className = "bad";
-		if (t == document.getElementById(`checkD`).innerHTML){
+		if (t == document.getElementById(`checkD`).value){
 			document.getElementById(`checkD`).className = "good";
 			goodLines++;
 		}
+		document.getElementById(`checkD`).getElementsByTagName("span")[0].innerHTML = t;
 	}
 	if (goodLines == (size*2)+1){
 		congratulate();
@@ -348,6 +366,7 @@ function congratulate() {
 	} 
 	solved = true;
 }
+
 function showLevels(x) {
 	document.getElementById("easy").style.display = "none";
 	document.getElementById("medium").style.display = "none";
@@ -488,5 +507,16 @@ function populateLevels(){
 			newOption.value = i;
 			newOption.innerHTML = "Grid #"+i;
 		level.appendChild(newOption);
+	}
+}
+
+function toggleHints(){
+	let hints = document.getElementsByClassName("runningTotal");
+	let disp = "none"
+	if ( document.getElementById("hints").checked ){
+		disp = "block";
+	}
+	for ( let i = 0; i < hints.length; i++ ){
+		hints[i].style.display = disp;
 	}
 }

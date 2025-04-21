@@ -13,7 +13,6 @@
     <button class="button" onclick="newGrid();">< Main Menu</button>
 	<!-- <input type="button" class="button" id="hint" value="Hint" onclick="showHint();"> -->
 	<div id="showSeed"></div>
-	<input type="button" class="button" id="toggleAudioSettings" value="&#128266;" onclick="toggleAudioSettings();">
 
 
     <input type='hidden' id='currentX'>
@@ -25,6 +24,16 @@
         <div id="timeHere"></div>
         <div id="movesHere"></div>
         <div id="feedback"></div>
+		<div id="settings">
+			<input type="checkbox" checked="checked" id="music" onclick="toggleMusic()">
+			<label for="music">MUSIC</label>
+			<input type="checkbox" checked="checked" id="effects">
+			<label for="effects">EFFECTS</label>
+			<input type="checkbox" id="hints" onclick="toggleHints();">
+			<label for="hints">TOTALS</label>
+			<input type="checkbox" id="zen" onclick="toggleZen();">
+			<label for="zen">ZEN</label>
+		</div>
     </div>
 
 <div id="gridSettings">
@@ -81,19 +90,9 @@
 				</table>
 			<button onclick="makeGrid()">Generate Grid</button>
 		</div>
-		<br/>
-		<input type="checkbox" id="zen" onclick="toggleZen()"> Zen Mode (Hide Timer)
 	</div>
 </div>
-<div id="audioSettings">
-	<input type="checkbox" checked="checked" id="music" onclick="toggleMusic()">
-	<label for="music">Music</label>
-	<br/>
-	<input type="checkbox" checked="checked" id="effects">
-	<label for="music">Sound Effects</label>
-	<br/>
-	<input type="button" class="button" value="< Back to Game" onclick="toggleAudioSettings();">
-</div>
+
 <div id="fadeOut"></div>
 <script>showTimer();</script>
 </BODY>

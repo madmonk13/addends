@@ -405,7 +405,7 @@ button:disabled {
     font-weight: bold;
 }
 #customPuzzleSettings {
-	display: block;
+	display: none;
 }
 #showSeed {
 	display: none;

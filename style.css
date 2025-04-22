@@ -98,13 +98,7 @@ button, select, input {
 			font-size: 5vw;
 			margin: 0.5vw
 		}
-	}
-	.size-7 {
-		button {
-			font-size: 4vw;
-		}
-	}
-}
+	}}
 @media (orientation: landscape) {
 	.grid {
 		width: 70vh;
@@ -147,37 +141,79 @@ button, select, input {
 
 .size-4 {
 	display: grid;
-	grid-template-columns: repeat(5, 1fr);	
+	grid-template-columns: repeat(5, 1fr);
+	button {
+		font-size: 4vw;
+		span {
+			font-size: 0.7rem;
+		}	
+	}
 }
 
 .size-5 {
 	display: grid;
-	grid-template-columns: repeat(6, 1fr);	
+	grid-template-columns: repeat(6, 1fr);
+	button {
+		font-size: 4vw;
+		span {
+			font-size: 0.7rem;
+		}	
+	}
 }
 
 .size-6 {
 	display: grid;
-	grid-template-columns: repeat(7, 1fr);	
+	grid-template-columns: repeat(7, 1fr);
+	button {
+		font-size: 4vw;
+		span {
+			font-size: 0.7rem;
+		}	
+	}
 }
 
 .size-7 {
 	display: grid;
 	grid-template-columns: repeat(8, 1fr);
+	button {
+		font-size: 4vw;
+		span {
+			font-size: 0.7rem;
+		}	
+	}
 }
 
-.size-8 .gridCell {
+.size-8 {
 	display: grid;
-	grid-template-columns: repeat(9, 1fr);	
+	grid-template-columns: repeat(9, 1fr);
+	button {
+		font-size: 3vw;
+		span {
+			font-size: 0.5rem;
+		}	
+	}
 }
 
-.size-9 .gridCell {
+.size-9 {
 	display: grid;
-	grid-template-columns: repeat(10, 1fr);	
+	grid-template-columns: repeat(10, 1fr);
+	button {
+		font-size: 2.5vw;
+		span {
+			font-size: 0.5rem;
+		}	
+	}
 }
 
-.size-10 .gridCell, .size-10 .check {
+.size-10  {
 	display: grid;
-	grid-template-columns: repeat(11, 1fr);	
+	grid-template-columns: repeat(11, 1fr);
+	button {
+		font-size: 2vw;
+		span {
+			font-size: 0.5rem;
+		}	
+	}
 }
 
 
@@ -199,7 +235,6 @@ button:disabled {
 }
 
 .runningTotal {
-	font-size: 1rem;
 	display: none;
 	position: relative;
 	line-height: 0rem;
@@ -405,7 +440,7 @@ button:disabled {
     font-weight: bold;
 }
 #customPuzzleSettings {
-	display: none;
+	display: block;
 }
 #showSeed {
 	display: none;

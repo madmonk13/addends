@@ -34,6 +34,7 @@ function setToday(size,empty){
 var availableNumbers = [];
 
 function makeGrid(seed,size,empty,tutorial) {
+	console.log("makeGrid",seed,size,empty,tutorial);
 	// timer = 0;
 	document.getElementById("timeHere").innerHTML = "00:00:00";
 	if ( document.getElementById("music").checked ){
@@ -324,7 +325,7 @@ function checkGrid(){
 				document.getElementById(`checkX${x}`).className = "good";
 				goodLines++;
 			}
-			document.getElementById(`checkX${x}`).getElementsByTagName("span")[0].innerHTML = t;
+			document.getElementById(`checkX${x}`).getElementsByTagName("span")[0].innerHTML = getHint(t,document.getElementById(`checkX${x}`).value);
 		}
 	}
 	for (let y = 0; y < size; y++){
@@ -337,7 +338,7 @@ function checkGrid(){
 				document.getElementById(`checkY${y}`).className = "good";
 				goodLines++;
 			}
-			document.getElementById(`checkY${y}`).getElementsByTagName("span")[0].innerHTML = t;
+			document.getElementById(`checkY${y}`).getElementsByTagName("span")[0].innerHTML = getHint(t,document.getElementById(`checkY${y}`).value);
 		}
 	}
 	let t = 0;
@@ -348,11 +349,19 @@ function checkGrid(){
 			document.getElementById(`checkD`).className = "good";
 			goodLines++;
 		}
-		document.getElementById(`checkD`).getElementsByTagName("span")[0].innerHTML = t;
+		document.getElementById(`checkD`).getElementsByTagName("span")[0].innerHTML = getHint(t,document.getElementById(`checkD`).value);
 	}
 	if (goodLines == (size*2)+1){
 		congratulate();
 	}
+}
+
+function getHint(a,b){
+	let hint = (a-b)*-1;
+	if ( hint >= 1){
+		return ("+"+hint).toString();
+	}
+	return hint;
 }
 
 function newGrid() {

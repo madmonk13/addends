@@ -165,19 +165,19 @@ button, select, input {
 	grid-template-columns: repeat(8, 1fr);
 }
 
-.size-8 .gridCell, .size-8 .check {
+.size-8 .gridCell {
 	display: grid;
 	grid-template-columns: repeat(9, 1fr);	
 }
 
-.size-9 .gridCell, .size-9 .check {
+.size-9 .gridCell {
 	display: grid;
 	grid-template-columns: repeat(10, 1fr);	
 }
 
 .size-10 .gridCell, .size-10 .check {
 	display: grid;
-	grid-template-columns: repeat(9, 1fr);	
+	grid-template-columns: repeat(11, 1fr);	
 }
 
 
@@ -199,12 +199,14 @@ button:disabled {
 }
 
 .runningTotal {
-	font-size: 0.75rem;
+	font-size: 1rem;
 	display: none;
 	position: relative;
 	line-height: 0rem;
 	width: 100%;
 	text-align: right;
+	/* font-family: Sans-Serif; */
+    font-style: italic;
 }
 
 /* .runningTotal::before {
@@ -403,7 +405,7 @@ button:disabled {
     font-weight: bold;
 }
 #customPuzzleSettings {
-	display: none;
+	display: block;
 }
 #showSeed {
 	display: none;

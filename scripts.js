@@ -534,3 +534,11 @@ function toggleHints(){
 		hints[i].style.display = disp;
 	}
 }
+
+function setSize(s){
+	document.getElementById("size").value = s;
+}
+
+function setDifficulty(d){
+	document.getElementById("empty").value = d;
+}

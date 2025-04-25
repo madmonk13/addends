@@ -56,38 +56,40 @@
 		<div id="customPuzzleSettings">
 			<hr/>
 			<h2>Custom Puzzle:</h2>
-				<table class="center-table">
-					<tr>
-						<td>Seed:</td>
-						<td>
-							<input name="seed" id="seed" type="number" onblur="checkSeed();">
-							<button onclick="newSeed();">&#x21bb;</button>
-					</tr>
-					<tr>
-						<td>Size:</td>
-						<td>
-						<select name="size" id="size" type="text">
-							<option value=5>5x5</option>
-							<option value=6>6x6</option>
-							<option value=7>7x7</option>
-							<option value=8>8x8</option>
-							<option value=9>9x9</option>
-							<option value=10>10x10</option>
-						</select>
-					</td>
-					</tr>
-					<tr>
-						<td>Difficulty:</td>
-						<td>
-							<select name="empty" id="empty">
-								<option value=20>Easy: 20%</option>
-								<option value=25>Intermediate: 25%</option>
-								<option value=30>Hard: 30%</option>
-								<option value=35>Punishing: 35%</option>
-							</select>
-						</td>
-					</tr>
-				</table>
+
+				<label for="seed">Seed:</label>
+				<input name="seed" id="seed" type="number" onblur="checkSeed();">
+				<button onclick="newSeed();">&#x21bb;</button>
+
+				<fieldset>
+					<legend>Grid Size:</legend>
+					<input id="s5" type="radio" value="5" name="size" onchange="setSize(this.value);">
+					<label for="s5">5x5</label>
+					<input id="s6" type="radio" value="6" name="size" onchange="setSize(this.value);">
+					<label for="s6">6x6</label>
+					<input id="s7" type="radio" value="7" name="size" checked="checked" onchange="setSize(this.value);">
+					<label for="s7">7x7</label>
+					<input id="s8" type="radio" value="8" name="size" onchange="setSize(this.value);">
+					<label for="s8">8x8</label>
+					<input id="s9" type="radio" value="9" name="size" onchange="setSize(this.value);">
+					<label for="s9">9x9</label>
+					<input id="size" type="hidden" value="">
+				</fieldset>
+
+				<fieldset>
+					<legend>Grid Difficulty:</legend>
+					<input id="easy" type="radio" value="20" name="difficulty" onchange="setDifficulty(this.value);">
+					<label for="easy">Easy</label>
+					<input id="intermediate" type="radio" value="25" name="difficulty" checked="checked" onchange="setDifficulty(this.value);">
+					<label for="intermediate">Intermediate</label>
+					<input id="hard" type="radio" value="30" name="difficulty" onchange="setDifficulty(this.value);">
+					<label for="hard">Hard</label>
+					<input id="punishing" type="radio" value="35" name="difficulty" onchange="setDifficulty(this.value);">
+					<label for="punishing">Punishing</label>
+				</fieldset>
+
+				<input type="hidden" id="empty" value="25">
+
 			<button onclick="makeGrid()">Generate Grid</button>
 		</div>
 	</div>

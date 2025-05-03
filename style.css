@@ -53,14 +53,14 @@ body {
 
 
 .button, #instructions button {
-	background-color: #666;
+	background-color: green;
 	text-decoration: none;
-	border: 2px solid silver;
-	padding: 2px 5px;
-	-moz-border-radius: 5px;
+	border: 2px solid green;
+	padding: 4px 8px;
 	border-radius: 5px;
 	color: #fff;
 	background-image: none;
+  }
 }
 
 .button:active, #instructions button:active {
@@ -149,7 +149,7 @@ button, select, input {
 		font-size: 7vmin;
 		margin: 0.3vmin;
 		span {
-			font-size: 4.5vmin;
+			font-size: 7vmin;
 		}
 	}
 }
@@ -368,7 +368,7 @@ button:disabled {
 	display: block;
 	margin-bottom: 1em;
 	text-align:center;
-	font-size: 1.5rem;
+	font-size: 1rem;
 }
 .levelButton {
 	font-family: Arial, "Sans-Serif";
@@ -574,6 +574,7 @@ button:disabled {
   border-radius: 0.25rem;
   display: inline-block;
   width: 6rem;
+  margin: 0.25rem;
 }
 
 #settings input[type="checkbox"] {

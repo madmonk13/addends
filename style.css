@@ -94,13 +94,24 @@ button, select, input {
 		margin: 5vh auto;
 		max-width: 600px;
 		max-height: 600px;
-	}}
+		button {
+			span {
+				line-height: 260%;
+			}
+		}
+	}
+}
 @media (orientation: landscape) {
 	.grid {
 		width: 70vh;
 		height: 70vh;
 		padding: 1vh;
 		margin: 5vh auto;
+		button {
+			span {
+				line-height: 200%;
+			}
+		}
 	}
 }
 
@@ -150,7 +161,7 @@ button, select, input {
 		font-size: 5vmin;
 		margin: 0.3vmin;
 		span {
-			font-size: 3.5vmin;
+			font-size: 5vmin;
 		}
 	}
 }
@@ -162,7 +173,7 @@ button, select, input {
 		font-size: 4.5vmin;
 		margin: 0.3vmin;
 		span {
-			font-size: 3.5vmin;
+			font-size: 4.5vmin;
 		}
 	}
 }
@@ -174,7 +185,7 @@ button, select, input {
 		font-size: 4vmin;
 		margin: 0.3vmin;
 		span {
-			font-size: 3vmin;
+			font-size: 4vmin;
 		}
 	}
 }
@@ -186,7 +197,7 @@ button, select, input {
 		font-size: 3.5vmin;
 		margin: 0.3vmin;
 		span {
-			font-size: 2vmin;
+			font-size: 3.5vmin;
 		}
 	}
 }
@@ -198,7 +209,7 @@ button, select, input {
 		font-size: 3vmin;
 		margin: 0.2vmin;
 		span {
-			font-size: 2vmin;
+			font-size: 3vmin;
 		}
 	}
 }
@@ -227,8 +238,6 @@ button:disabled {
 	line-height: 0rem;
 	width: 100%;
 	text-align: right;
-	/* font-family: Sans-Serif; */
-    font-style: italic;
 }
 
 /* .runningTotal::before {
@@ -474,6 +483,19 @@ button:disabled {
 	background-image: none;
 	color: #fff;
 	border: none;
+	position: relative;
+	span {
+		display: none;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		line-height: 230%;
+		/* font-size: 4.5vmin; */
+		text-align: center;
+		background-color: red;
+	}
 	/* animation-name: badCheck;
 	animation-duration: 1s;
 	animation-iteration-count: infinite;
@@ -592,4 +614,8 @@ button:disabled {
 	input[type="radio"]:checked+label {
 		background-color: green;
 	}
+}
+
+#timeHere {
+	transition: opacity 0.5s ease-in-out;
 }

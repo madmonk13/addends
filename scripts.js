@@ -357,7 +357,7 @@ function checkGrid(){
 }
 
 function getHint(a,b){
-	let hint = (a-b)*-1;
+	let hint = (a-b);
 	if ( hint >= 1){
 		return ("+"+hint).toString();
 	}
@@ -507,10 +507,10 @@ function updateButton(){
 
 function toggleZen(){
 	if ( document.getElementById("zen").checked ){
-		document.getElementById("timeHere").style.display="none";
+		document.getElementById("timeHere").style.opacity=0;
 	}
 	else {
-		document.getElementById("timeHere").style.display="block";
+		document.getElementById("timeHere").style.opacity=1;
 	}
 }
 

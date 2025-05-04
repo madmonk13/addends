@@ -379,6 +379,8 @@ function congratulate() {
         document.getElementsByClassName("gridCell dynamic")[i].className += " solved";
 	} 
 	solved = true;
+	document.cookie = "level=" + document.getElementById("level").value + "; SameSite=Strict";
+	populateLevels();
 }
 
 function showLevels(x) {
@@ -515,13 +517,23 @@ function toggleZen(){
 }
 
 function populateLevels(){
-	let level = document.getElementById("level");
-	for ( let i = 1; i <= 150; i++ ){
-		let newOption = document.createElement("option");
-			newOption.value = i;
-			newOption.innerHTML = "Grid #"+i;
-		level.appendChild(newOption);
+	if ( document.cookie.match(/level=(\d+)/) ) {
+		document.getElementById("level").value = parseFloat(document.cookie.match(/level=(\d+)/)[1])+1;
 	}
+	else {
+		document.getElementById("level").value = 1;
+	}
+	// let level = document.getElementById("level");
+	// for ( let i = 1; i <= 150; i++ ){
+	// 	let newOption = document.createElement("option");
+	// 		newOption.value = i;
+	// 		newOption.innerHTML = "Grid #"+i;
+	// 	level.appendChild(newOption);
+	// }
+}
+
+function updateLevel(n){
+	document.getElementById("level").value = parseFloat(document.getElementById("level").value)+n;
 }
 
 function toggleHints(){

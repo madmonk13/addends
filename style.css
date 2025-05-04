@@ -60,8 +60,8 @@ body {
 	border-radius: 5px;
 	color: #fff;
 	background-image: none;
-  }
 }
+
 
 .button:active, #instructions button:active {
 	background-color: #000;
@@ -619,4 +619,14 @@ button:disabled {
 
 #timeHere {
 	transition: opacity 0.5s ease-in-out;
+	font-size: 1.5rem;
+}
+
+#level {
+	height: 2rem;
+	width: 2rem;
+	background-color: white;
+	background-image: none;
+	text-align: center;
+	font-size: 1.5rem;
 }

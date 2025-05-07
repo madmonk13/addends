@@ -545,7 +545,17 @@ function populateLevels(){
 }
 
 function updateLevel(n){
-	document.getElementById("level").value = parseFloat(document.getElementById("level").value)+n;
+	let l = document.getElementById("level");
+	if ( parseFloat(l.value) + n <= 0 ){
+		l.value = 99;
+	}
+	else if ( parseFloat(l.value) + n >= 100 ){
+		l.value = 1;
+	}
+	else {
+		l.value = parseFloat(l.value)+n;
+	}
+
 }
 
 function toggleHints(){

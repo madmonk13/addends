@@ -9,6 +9,10 @@ const end = new Audio('./audio/end.mp3');
 const hint = new Audio('./audio/hint.mp3');
 const click1 = new Audio('./audio/click1.mp3');
 const click2 = new Audio('./audio/click2.mp3');
+const start = new Audio('./audio/start.mp3');
+const back = new Audio('./audio/back.mp3');
+
+
 loop1.loop = true;
 
 function newSeed(){
@@ -39,6 +43,9 @@ function makeGrid(seed,size,empty,tutorial) {
 	document.getElementById("timeHere").innerHTML = "00:00:00";
 	if ( document.getElementById("music").checked ){
 		loop1.play();
+	}
+	if ( document.getElementById("effects").checked ){
+		start.play();
 	}
 	availableNumbers = []; // reset
 	if ( document.getElementById("grid")){
@@ -368,7 +375,12 @@ function newGrid() {
 	document.getElementById("gridSettings").style.display="block";
 	document.getElementById("fadeOut").style.display="block";
 	document.getElementById("feedback").innerHTML="";
+	loop1.pause();
+	if ( document.getElementById("effects").checked ){
+		back.play();
+	}
 }
+
 function congratulate() {
 	document.getElementById("feedback").innerHTML = "You solved the grid!";
 	if ( document.getElementById("effects").checked ){

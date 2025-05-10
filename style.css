@@ -642,3 +642,15 @@ button:disabled {
 	animation-iteration-count: 1;
 	animation-timing-function: linear;
 }
+
+@keyframes zoomIn {
+	0% { transform: scale(3,3); opacity: 1;}
+	100% { transform: scale(1,1); opacity: 1}	
+	
+}
+#gridSettings {
+	animation-name: zoomIn;
+	animation-duration: 0.5s;
+	animation-iteration-count: 1;
+	animation-timing-function: linear;
+}

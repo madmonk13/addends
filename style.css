@@ -589,17 +589,20 @@ button:disabled {
 	background-color: green
 }
 
-.v-good {
-	background-image: linear-gradient(0deg, #000 0%, #000 44%, green 45%, green 55%, #000 56%, #000 100%);
+
+.x-good {
+	background-image: linear-gradient(0deg, transparent 0%, transparent 34%, green 45%, green 55%, transparent 66%, transparent 100%);
 }
 
-.h-good {
-	background-image: linear-gradient(90deg, #000 0%, #000 44%, green 45%, green 55%, #000 56%, #000 100%);
+.y-good {
+	background-image: linear-gradient(90deg, transparent 0%, transparent 34%, green 45%, green 55%, transparent 66%, transparent 100%);
 }
 
-.vh-good {
-	background-image: linear-gradient(90deg, transparent 0%, transparent 44%, green 45%, green 55%, transparent 56%, transparent 100%), linear-gradient(0deg, #000 0%, #000 44%, green 45%, green 55%, #000 56%, #000 100%);
+.xy-good {
+	background-image: linear-gradient(90deg, transparent 0%, transparent 34%, green 45%, green 55%, transparent 66%, transparent 100%), linear-gradient(0deg, transparent 0%, transparent 34%, green 45%, green 55%, transparent 66%, transparent 100%);
 }
+
+.dynamic.x-good { color: lightgreen}
 
 #customPuzzleSettings {
 	input[type="radio"] {

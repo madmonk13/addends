@@ -361,6 +361,7 @@ function checkGrid(){
 	if (goodLines == (size*2)+1){
 		congratulate();
 	}
+	// validateBoard();
 }
 
 function getHint(a,b){
@@ -575,4 +576,33 @@ function setSize(s){
 
 function setDifficulty(d){
 	document.getElementById("empty").value = d;
+}
+
+
+function validateBoard(){
+	let size = document.querySelectorAll('[data-x="0"]').length;
+	for (let x = 0; x < size; x++){
+		for (let y = 0; y < size; y++){
+			if ( 
+				document.getElementById('checkX'+x).className == "good"
+			){
+				document.getElementById('cell_'+x+'-'+y).classList += " y-good";
+			}
+		}
+	}
+	for (let y = 0; y < size; y++){
+		for (let x = 0; x < size; x++){
+
+			if ( 
+				document.getElementById('checkY'+y).className == "good"
+			){
+				if ( document.getElementById('cell_'+x+'-'+y).classList.contains('y-good') ){
+					document.getElementById('cell_'+x+'-'+y).classList += " xy-good";
+				}
+				else {
+					document.getElementById('cell_'+x+'-'+y).classList += " x-good";				
+				}
+			}
+		}
+	}
 }

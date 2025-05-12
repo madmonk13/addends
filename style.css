@@ -51,6 +51,11 @@ body {
     animation-iteration-count: infinite;
 }
 
+#instructions {
+	max-width: 550px;
+  	margin: auto;
+}
+
 
 .button, #instructions button {
 	background-color: green;
@@ -424,6 +429,8 @@ button:disabled {
 }
 #feedback {
 	font-weight: bold;
+	max-width: 600px;
+  margin: 1vmin auto 2vmin auto;
 }
 #title {
 	font-weight: bold;

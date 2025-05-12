@@ -187,8 +187,10 @@ function makeGrid(seed,size,empty,tutorial) {
 		document.getElementById('feedback').innerHTML = "Lines and columns with a green tile at the end correctly add up. "+
 		"Those with red tiles do not.  "+
 		"Your job is to swap the black tiles so that all lines and columns add up to the number at the end.<br/><br/>"+
+		"Enable the +/- button to see how much each line and colum is off by.  "+
+		"Timer stressing you out?  Click the zen button to hide it.<br/><br/>"+
 		"The tiles 4 and 2 are in the wrong place.  "+
-		"Click the 4 and then the 2 to swap them.";
+		"Click the 4 and then the 2 to swap them. ";
 	}
 	whatsLeft();
 	if ( document.getElementsByClassName("runningTotal")[0].style.display == "block" ){

@@ -234,8 +234,14 @@ function shuffleArray(array) {
 	return output;
 }
 
-function whatsLeft(){
+function whatsLeft(arr){
+	if ( arr != undefined ){
+		availableNumbers = arr;
+	}
 	availableNumbers = shuffleArray(availableNumbers);
+	savedArray = availableNumbers.slice();
+	console.log(savedArray,availableNumbers);
+	let checks = (availableNumbers.length*2)+1;
 	var grid = document.getElementById("grid");
 	var cells = grid.getElementsByTagName("button");
 	for (c=0;c<cells.length-1;c++){
@@ -262,7 +268,13 @@ function whatsLeft(){
 			//console.log(e);
 		}
 	}
-	checkGrid();
+	if ( checkGrid() == checks ) {
+		console.log("Need to reshuffle");
+		let last = savedArray.pop()
+		console.log();
+		whatsLeft([last,...savedArray]);
+	}
+	console.log(checkGrid());
 }
 
 function setCell_disabled(v) {	
@@ -310,7 +322,7 @@ function setCell(element) {
 //        previousElement.parentNode.classList.add("dynamic");
         previousElement.classList.remove("active");
         previousElement = null;
-        checkGrid();
+        checkGrid(false);
         moves++;
     } else {
         if (document.getElementById("effects").checked) {
@@ -321,7 +333,7 @@ function setCell(element) {
     }
 }
 
-function checkGrid(){
+function checkGrid(silent){
 	let goodLines = 0;
 	let size = document.querySelectorAll('[data-x="0"]').length;
 	for (let x = 0; x < size; x++){
@@ -360,9 +372,10 @@ function checkGrid(){
 		}
 		document.getElementById(`checkD`).getElementsByTagName("span")[0].innerHTML = getHint(t,document.getElementById(`checkD`).value);
 	}
-	if (goodLines == (size*2)+1){
+	if (goodLines == (size*2)+1 && silent === false ){
 		congratulate();
 	}
+	return goodLines;
 	// validateBoard();
 }
 

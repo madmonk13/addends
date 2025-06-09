@@ -108,8 +108,8 @@ button, select, input {
 }
 @media (orientation: landscape) {
 	.grid {
-		width: 70vh;
-		height: 70vh;
+		width: 60vh;
+		height: 60vh;
 		padding: 1vh;
 		margin: 5vh auto;
 		button {

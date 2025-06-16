@@ -3,6 +3,7 @@ var toGuess = 0;
 var solved = true;
 var timer = -1;
 var solution = [];
+var daily = false;
 
 const loop1 = new Audio('./audio/loop2.mp3');
 const end = new Audio('./audio/end.mp3');
@@ -27,6 +28,7 @@ function checkSeed(){
 }
 
 function setToday(size,empty){
+	daily = true;
 	let date = new Date();
 	let seed = date.getFullYear() +""+ date.getMonth() +""+ date.getDate();
 	document.getElementById('seed').value = seed;
@@ -474,6 +476,7 @@ function toggleAudioSettings(){
 }
 
 function playCurrent(){
+	daily = false;
 	let n = document.getElementById('level').value;
 	let seed = (12345*n)%9999999999999;
 	let size = 6;
@@ -545,7 +548,7 @@ function toggleZen(){
 }
 
 function populateLevels(){
-	if ( document.cookie.match(/level=(\d+)/) ) {
+	if ( document.cookie.match(/level=(\d+)/) && daily === false) {
 		document.getElementById("level").value = parseFloat(document.cookie.match(/level=(\d+)/)[1])+1;
 	}
 	else {

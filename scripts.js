@@ -304,6 +304,7 @@ function setCell_disabled(v) {
 let previousElement = null;
 
 function setCell(element) {
+	element.classList.remove('flip');
     if (solved) {
         console.log("solved");
         return;
@@ -319,13 +320,15 @@ function setCell(element) {
 
         previousElement.innerHTML = newNum;
         element.innerHTML = oldNum;
-//        element.classList.add("set");
-//        element.parentNode.classList.add("dynamic");
-//        previousElement.parentNode.classList.add("dynamic");
-        previousElement.classList.remove("active");
-        previousElement = null;
+		previousElement.offsetWidth;
+		element.offsetWidth;
+		previousElement.classList.add('flip');
+		element.classList.remove('flip');
+		element.classList.add('flip');
+		previousElement = null;
         checkGrid(false);
         moves++;
+
     } else {
         if (document.getElementById("effects").checked) {
             click1.play();
@@ -448,7 +451,7 @@ function init(){
 	populateLevels();
 	loadLevel();
 	let date = new Date();
-	document.getElementById('todaysDate').innerHTML = date.getFullYear() +"-"+ (date.getMonth()+1) +"-"+ date.getDate();
+	document.getElementById('todaysDate').innerHTML = "Daily Challenge for " + date.getFullYear() +"-"+ (date.getMonth()+1) +"-"+ date.getDate();
 
 }
 

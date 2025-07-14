@@ -60,13 +60,9 @@
 		<p>Swap the black tiles so that all horizonal and vertical lines must add up to the number at the end (right and bottom) of the line.</p>
         <p>Also, all numbers in the center diagonal line must add up to the number on the bottom right.</p>
 		<button onclick="makeGrid('99','4','15',true);">Play Tutorial Level</button>
-		<br/>
-		<h2>Today's Grids:</h2>
-		<h3 id="todaysDate"></h3>
-		<button onclick="setToday(5,20);">Easy</button>
-		<button onclick="setToday(6,30);">Intermediate</button>
-		<button onclick="setToday(7,35);">Hard</button>
-		<h2>All Grids:</h2>
+		<hr/>
+		<button id="todaysDate" onclick="setToday(7,25);">Daily Challenge</button>
+		<hr/>
 		<button onclick="updateLevel(-1);">-</button>
 		<input type="text" id="level" readonly value=1>
 		<button onclick="updateLevel(1)">+</button>

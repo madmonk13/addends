@@ -304,12 +304,11 @@ function setCell_disabled(v) {
 let previousElement = null;
 
 function setCell(element) {
-	element.classList.remove('flip');
     if (solved) {
         console.log("solved");
         return;
     }
-
+	cleanCells('flip');
     if (previousElement) {
         if (document.getElementById("effects").checked) {
             click2.play();
@@ -323,12 +322,11 @@ function setCell(element) {
 		previousElement.offsetWidth;
 		element.offsetWidth;
 		previousElement.classList.add('flip');
-		element.classList.remove('flip');
 		element.classList.add('flip');
+		previousElement.classList.remove('active');
 		previousElement = null;
         checkGrid(false);
         moves++;
-
     } else {
         if (document.getElementById("effects").checked) {
             click1.play();
@@ -403,13 +401,14 @@ function newGrid() {
 }
 
 function congratulate() {
+	cleanCells('flip');
 	document.getElementById("feedback").innerHTML = "You solved the grid!";
 	if ( document.getElementById("effects").checked ){
 		end.play();
 	}
 
-    for ( var i=0;  i<document.getElementsByClassName("gridCell dynamic").length; i++){
-        document.getElementsByClassName("gridCell dynamic")[i].className += " solved";
+    for ( var i=0;  i < document.getElementsByClassName("dynamic").length; i++){
+        document.getElementsByClassName("dynamic")[i].classList.add("solved");
 	} 
 	solved = true;
 	document.cookie = "level=" + document.getElementById("level").value + "; SameSite=Strict";
@@ -625,5 +624,12 @@ function validateBoard(){
 				}
 			}
 		}
+	}
+}
+
+function cleanCells(c){
+	let cells = document.getElementsByClassName(c);
+	for ( var i = 0; i < cells.length; i++ ){
+		cells[i].classList.remove('flip');
 	}
 }

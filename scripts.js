@@ -482,18 +482,21 @@ function playCurrent(){
 	daily = false;
 	let n = document.getElementById('level').value;
 	let seed = (12345*n)%9999999999999;
-	let size = 6;
-	if ( n >= 50 ){
-		size = 7;
+	let size = 5;
+	if ( n >= 25 ){
+		size = 6;
 	}
-	else if ( n >= 100 ){
-		size = 8;
+	else if ( n>=50 ){
+		size = 7
+	}
+	else if ( n >= 75 ){
+		size = 8
 	}
 	let e = 25;
-	if ( n >=75 ){
+	if ( n >=65 ){
 		e = 30;
 	}
-	else if ( n >= 100 ){
+	else if ( n >= 130 ){
 		e = 35;
 	}
 	document.getElementById('seed').value = seed;
@@ -527,11 +530,11 @@ function showHint(){
 }
 
 function saveLevel(){
-	document.cookie = "level=" + document.getElementById("level").value + "; SameSite=Strict";
+	document.cookie = "level=" + level + "; SameSite=Strict";
 }
 
 function loadLevel(){
-	let saved = document.cookie.match(/level=(\d+)/);
+	let saved = document.cookie.match(/level=(\d+)/)[1];
 	if ( saved == null ){
 		level = 1;
 	}

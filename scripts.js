@@ -322,8 +322,8 @@ function setCell(element) {
         element.innerHTML = oldNum;
 		previousElement.offsetWidth;
 		element.offsetWidth;
-		previousElement.classList.add('flip');
-		element.classList.add('flip');
+		// previousElement.classList.add('flip');
+		// element.classList.add('flip');
 		previousElement.classList.remove('active');
 		previousElement = null;
         checkGrid(false);
@@ -402,7 +402,7 @@ function newGrid() {
 }
 
 function congratulate() {
-	cleanCells('flip');
+	// cleanCells('flip');
 	document.getElementById("feedback").innerHTML = "You solved the grid!";
 	if ( document.getElementById("effects").checked ){
 		end.play();
@@ -636,7 +636,7 @@ function validateBoard(){
 function cleanCells(c){
 	let cells = document.getElementsByClassName(c);
 	for ( var i = 0; i < cells.length; i++ ){
-		cells[i].classList.remove('flip');
+		// cells[i].classList.remove('flip');
 	}
 }
 

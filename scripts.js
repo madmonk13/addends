@@ -4,6 +4,7 @@ var solved = true;
 var timer = -1;
 var solution = [];
 var daily = false;
+var level = 1;
 
 const loop1 = new Audio('./audio/loop2.mp3');
 const end = new Audio('./audio/end.mp3');
@@ -530,14 +531,19 @@ function saveLevel(){
 }
 
 function loadLevel(){
-	let level = document.cookie.match(/level=(\d+)/);
-	if ( level != null ){
+	let saved = document.cookie.match(/level=(\d+)/);
+	if ( saved == null ){
 		level = 1;
 	}
+	else {
+		level = saved;
+	}
+ 	console.log(level,saved);
+	updateButton();
 }
 
 function updateButton(){
-	document.getElementById("levelPlay").innerHTML = "Play Level "+level
+	document.getElementById("playCurrent").innerHTML = "Play Level "+level
 }
 
 function toggleZen(){
@@ -633,3 +639,4 @@ function cleanCells(c){
 		cells[i].classList.remove('flip');
 	}
 }
+

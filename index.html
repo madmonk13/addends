@@ -55,9 +55,6 @@
 
 <div id="gridSettings">
 	<div id="instructions">
-
-
-
 		<div class="grid size-3">
 			<button class="gridCell" disabled="true">A</button>
 			<button class="gridCell" disabled="true">D</button>
@@ -66,25 +63,15 @@
 			<button class="gridCell" disabled="true">N</button>
 			<button class="gridCell" disabled="true">D</button>
 			<button class="gridCell" disabled="true">S</button>
-			<button class="gridCell filler" disabled="true"></button>
-			<button class="gridCell filler" disabled="true"></button>
+			<button class="gridCell" disabled="true"></button>
+			<button class="gridCell" disabled="true"></button>
 		</div>
-
-
-
-        <!-- <h1>Add-Ends</h1> -->
-        <h3>How to play:</h3>
-		<p>Swap the black tiles so that all horizonal and vertical lines must add up to the number at the end (right and bottom) of the line.</p>
+		<p>Swap the black tiles so that all horizonal and vertical lines must add up to the number at the right and bottom of the line.</p>
         <p>Also, all numbers in the center diagonal line must add up to the number on the bottom right.</p>
-		<button onclick="makeGrid('99','4','15',true);">Play Tutorial Level</button>
-		<hr/>
-		<button id="todaysDate" onclick="setToday(7,25);">Daily Challenge</button>
-		<hr/>
-		<button onclick="updateLevel(-1);">-</button>
-		<input type="text" id="level" readonly value=1>
-		<button onclick="updateLevel(1)">+</button>
-		<br/>
-		<button onclick="playCurrent()">Play</button>
+		<button class="homeButtons" onclick="makeGrid('99','4','15',true);">Play Tutorial Level</button>
+		<button class="homeButtons" id="todaysDate" onclick="setToday(7,25);">Daily Challenge</button>
+		<input type="hidden" id="level" readonly value=1>
+		<button class="homeButtons" onclick="playCurrent()" id="playCurrent">Play Level</button>
 		<div id="customPuzzleSettings">
 			<hr/>
 			<h2>Custom Puzzle:</h2>

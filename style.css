@@ -91,6 +91,11 @@ button, select, input {
 	margin: 3px;
 }
 
+.homeButtons {
+	width: 300px;
+	height: 60px;
+}
+
 @media (orientation: portrait) {
 	.grid {
 		width: 90vw;
@@ -156,8 +161,8 @@ button, select, input {
 		background-color: white !important;
 		color: black !important;
 		border: none !important;
-		font-size: 7vmin;
-		margin: 0.3vmin;
+		font-size: 30px;
+		/* margin: 0.3vmin; */
 	}
 	button.filler {
 		background-color: black !important;
